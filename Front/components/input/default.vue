@@ -12,7 +12,7 @@
         <label :for="reponse.id_reponse" class="cursor-pointer" >{{ reponse.label }}</label>
     </li>
 </template>
-// TODO: Fix la couleur de bordure marche que la première condition
+// TODO: Fix, la couleur de bordure marche que la première condition.
 <script setup>
     const props = defineProps({
         reponse: Object,
