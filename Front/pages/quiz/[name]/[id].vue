@@ -11,7 +11,7 @@
       <div>
         <p>{{ questions[currentQuestion].label }}</p>
         <ul :class="validatedReponse !== null ? 'pointer-events-none' : ''">
-          <InputDefault v-for="reponse in reponses" :key="reponse.id_reponse" :reponse="reponse" :selectedReponse="selectedReponse" :updateSelectedReponse="updateSelectedReponse"/>
+          <InputDefault v-for="reponse in reponses" :key="reponse.id_reponse" :reponse="reponse" :selectedReponse="selectedReponse" :updateSelectedReponse="updateSelectedReponse" :validatedReponse="validatedReponse"/>
         </ul>
         <button v-if="validatedReponse === null" :disabled="!selectedReponse" @click="validateQuestion" class="cursor-pointer disabled:cursor-default">Valider</button>
         <button v-else-if="currentQuestion < questions.length - 1" @click="nextQuestion" class="cursor-pointer">Suivant</button>
