@@ -14,8 +14,6 @@
 <script setup>
 import { fetchRegister } from "../utils/fetchRegister.ts";
 
-localStorage.clear();
-
 const login = ref(null);
 const email = ref('');
 const verificationEmail = ref('');
@@ -31,8 +29,6 @@ const submit = async () => {
         login.value = await fetchRegister(email.value, password.value);
         localStorage.setItem('token', login.value.token);
         localStorage.setItem('user', JSON.stringify(login.value.user));
-        console.log(localStorage.getItem('token'));
-        console.log(localStorage.getItem('user'));
         
     } catch (error) {
         console.error(error);
