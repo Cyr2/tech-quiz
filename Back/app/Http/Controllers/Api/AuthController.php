@@ -31,7 +31,7 @@ class AuthController
         return response()->json([
             'message' => 'Connexion réussie',
             'user' => [
-                'id' => $user->id,
+                'id' => $user->user_id,
                 'email' => $user->email,
                 'role_id' => $user->role_id,
             ],
@@ -56,7 +56,7 @@ class AuthController
             'user_id' => Str::uuid(),
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            // 'role_id' => 1,
+            'role_id' => 2,
         ]);
 
         $token = Str::random(60);
