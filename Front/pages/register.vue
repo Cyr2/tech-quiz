@@ -8,31 +8,51 @@
             <button type="submit">Register</button>
             <NuxtLink to="/login">login</NuxtLink>
         </form>
+        <p v-if="errorMessage">{{ errorMessage }}</p>
     </div>
 </template>
 
 <script setup>
+
+import { useAuth } from "../stores/auth.js";
 import { fetchRegister } from "../utils/fetchRegister.ts";
 
-const login = ref(null);
+const user = useAuth();
+
+const register = ref(null);
 const email = ref('');
 const verificationEmail = ref('');
 const password = ref('');
+const errorMessage = ref('');
 
 const submit = async () => {
 
-    if(verificationEmail.value != email.value){
-        alert("Emails do not match");
+    if(!email.value || !password.value){
+        errorMessage.value = 'remplissez tous les champs';
         return;
     }
-    try {
-        login.value = await fetchRegister(email.value, password.value);
-        localStorage.setItem('token', login.value.token);
-        localStorage.setItem('user', JSON.stringify(login.value.user));
-        
-    } catch (error) {
-        console.error(error);
+
+    if(email.value !== verificationEmail.value){
+        errorMessage.value = 'les emails ne correspondent pas';
+        return;
     }
+
+        
+
+
+        register.value = await fetchRegister(email.value, password.value);
+        if(register.value.error){
+            errorMessage.value = register.value.error;
+            return;
+        }
+        else{
+            errorMessage.value = '';
+        }
+    
+        user.insertToken(register.value.token);
+        user.initializeUser(register.value.user.id, register.value.user.email);  
+
+    
 }
 
 </script>
