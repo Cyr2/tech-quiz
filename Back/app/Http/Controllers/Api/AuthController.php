@@ -18,10 +18,16 @@ class AuthController
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if(!$user) {
             return response()->json([
-                'message' => 'Les identifiants fournis sont incorrects.'
-            ], 401);
+                'error' => 'L\'email fournis est incorrect.'
+            ]);
+        }
+
+        if (!Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'error' => 'Le mot de passe fournis est incorrect.'
+            ]);
         }
 
         $token = Str::random(60);
@@ -31,9 +37,9 @@ class AuthController
         return response()->json([
             'message' => 'Connexion réussie',
             'user' => [
-                'id' => $user->user_id,
                 'email' => $user->email,
                 'role_id' => $user->role_id,
+                'id' => $user->user_id,
             ],
             'token' => $token,
         ]);
@@ -48,8 +54,8 @@ class AuthController
 
         if(User::where('email', $request->email)->exists()) {
             return response()->json([
-                'message' => 'Cet email est déjà utilisé.'
-            ], 400);
+                'error' => 'Cet email est déjà utilisé.'
+            ]);
         }
 
         $user = User::create([
@@ -64,7 +70,7 @@ class AuthController
         return response()->json([
             'message' => 'Utilisateur enregistré avec succès',
             'user' => [
-                'id' => $user->id,
+                'id' => $user->user_id,
                 'email' => $user->email,
             ],
             'token' => $token,
