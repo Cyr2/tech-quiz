@@ -20,13 +20,13 @@ class AuthController
 
         if(!$user) {
             return response()->json([
-                'error' => 'L\'email fournis est incorrect.'
+                'error' => 'L\'email fournis n\'est pas enregistrer.'
             ]);
         }
 
         if (!Hash::check($request->password, $user->password)) {
             return response()->json([
-                'error' => 'Le mot de passe fournis est incorrect.'
+                'error' => 'Le mot de passe n\'est pas correct .'
             ]);
         }
 
@@ -52,7 +52,7 @@ class AuthController
             'password' => 'required',
         ]);
 
-        if(User::where('email', $request->email)->exists()) {
+        if(User::where('email', $request->email)->first()) {
             return response()->json([
                 'error' => 'Cet email est déjà utilisé.'
             ]);
@@ -72,14 +72,9 @@ class AuthController
             'user' => [
                 'id' => $user->user_id,
                 'email' => $user->email,
+                'role_id' => $user->role_id,
             ],
             'token' => $token,
         ]);
-    }
-
-    public function logout(Request $request)
-    {
-        // Ici, vous pouvez invalider le token si vous le stockez quelque part
-        return response()->json(['message' => 'Déconnexion réussie']);
     }
 }
