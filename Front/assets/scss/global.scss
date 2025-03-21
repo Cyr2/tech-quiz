@@ -1,6 +1,69 @@
 @use "variables";
 @use "utils/fonts";
 
+.nuxt-ui-component {
+  color: var(--ui-primary);
+}
+
+.nuxt-ui-component-specific {
+  color: var(--ui-secondary);
+}
+
+:root {
+  /* UI Primary Colors (Highlight) */
+  --ui-color-primary-50: var(--highlight-lightest);
+  --ui-color-primary-100: var(--highlight-light);
+  --ui-color-primary-200: var(--highlight-medium);
+  --ui-color-primary-300: var(--highlight-dark);
+  --ui-color-primary-400: var(--highlight-darkest);
+  --ui-color-primary-500: var(--highlight-darkest);
+  --ui-color-primary-600: var(--highlight-darkest);
+  --ui-color-primary-700: var(--highlight-darkest);
+  --ui-color-primary-800: var(--highlight-darkest);
+  --ui-color-primary-900: var(--highlight-darkest);
+
+  /* UI Gray Colors (Neutral Dark) */
+  --ui-color-gray-50: var(--neutral-dark-lightest);
+  --ui-color-gray-100: var(--neutral-dark-light);
+  --ui-color-gray-200: var(--neutral-dark-medium);
+  --ui-color-gray-300: var(--neutral-dark-dark);
+  --ui-color-gray-400: var(--neutral-dark-darkest);
+  --ui-color-gray-500: var(--neutral-dark-darkest);
+  --ui-color-gray-600: var(--neutral-dark-darkest);
+  --ui-color-gray-700: var(--neutral-dark-darkest);
+  --ui-color-gray-800: var(--neutral-dark-darkest);
+  --ui-color-gray-900: var(--neutral-dark-darkest);
+
+  /* UI Base Colors */
+  --ui-primary: var(--highlight-medium);
+  --ui-secondary: var(--neutral-dark-medium);
+  --ui-success: var(--support-success-medium);
+  --ui-info: var(--neutral-dark-light);
+  --ui-warning: var(--support-warning-medium);
+  --ui-error: var(--support-error-medium);
+  --ui-neutral: var(--neutral-dark-medium);
+}
+
 * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Outfit', sans-serif;
+  transition: all 0.3s ease;
+}
+
+button, a {
+  cursor: pointer;
+}
+
+button:disabled, a:disabled, input:disabled {
+  cursor: auto;
+}
+
+body {
+  color: var(--neutral-light-lightest);
+  background-color: var(--neutral-dark-darkest);
+  * {
+    transition: transform 0.3s, background-color 0.3s, color 0.3s, box-shadow 0.3s, border 0.3s, outline 0.3s, outline-offset 0.3s;
+  }
 }

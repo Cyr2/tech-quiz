@@ -1,21 +1,21 @@
 <template>
-  <div>
-    <div v-if="questions && reponses">
-      <hgroup>
-        <p>Question {{ currentQuestion + 1 }} / {{ questions.length }}</p>
-        <h1 class="uppercase">{{ name }}</h1>
-      </hgroup>
-      <div class="progress-bar">
-        <div class="progress" :style="{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }"></div>
+  <div class="h-full flex flex-col gap-16">
+    <h1 class="uppercase">{{ name }}</h1>
+    <div v-if="questions && reponses" class="flex justify-between gap-16 max-md:flex-col">
+      <div class="flex flex-col justify-between w-1/2 pb-20 gap-8 max-md:w-full">
+        <hgroup class="flex flex-col gap-4">
+          <p class="italic text-gray-500">Question {{ currentQuestion + 1 }} / {{ questions.length }}</p>
+          <p class="text-2xl font-bold">{{ questions[currentQuestion].label }}</p>
+        </hgroup>
+        <UProgress :value="currentQuestion + 1" :max="questions.length" color="yellow" />
       </div>
-      <div>
-        <p>{{ questions[currentQuestion].label }}</p>
-        <ul :class="validatedReponse !== null ? 'pointer-events-none' : ''">
-          <InputDefault v-for="reponse in reponses" :key="reponse.id_reponse" :reponse="reponse" :selectedReponse="selectedReponse" :updateSelectedReponse="updateSelectedReponse"/>
+      <div class="w-1/2 max-md:w-full flex flex-col gap-6">
+        <ul :class="validatedReponse !== null ? 'pointer-events-none' : ''" class="flex flex-col w-full gap-4">
+          <InputDefault v-for="(reponse, index) in reponses" :key="reponse.id_reponse" :reponse="reponse" :selectedReponse="selectedReponse" :updateSelectedReponse="updateSelectedReponse" :letter="String.fromCharCode(65 + index)"/>
         </ul>
-        <button v-if="validatedReponse === null" :disabled="!selectedReponse" @click="validateQuestion" class="cursor-pointer disabled:cursor-default">Valider</button>
-        <button v-else-if="currentQuestion < questions.length - 1" @click="nextQuestion" class="cursor-pointer">Suivant</button>
-        <button v-else @click="submitQuiz" class="cursor-pointer">Terminer</button>
+        <ButtonDefaultForm v-if="validatedReponse === null" :click="validateQuestion" :disabled="!selectedReponse">Valider</ButtonDefaultForm>
+        <ButtonDefaultForm v-else-if="currentQuestion < questions.length - 1" :click="nextQuestion">Suivant</ButtonDefaultForm>
+        <ButtonDefaultForm v-else :click="submitQuiz">Terminer</ButtonDefaultForm>
       </div>
     </div>
     <div v-else>
@@ -41,6 +41,8 @@ const currentQuestion = ref(0);
 const reponses = ref(null);
 const selectedReponse = ref(null);
 const validatedReponse = ref(null);
+
+const currentProgress = computed(() => currentQuestion.value + 1);
 
 const updateSelectedReponse = (id_reponse) => {
   selectedReponse.value = id_reponse;

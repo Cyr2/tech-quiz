@@ -11,5 +11,14 @@ export default defineNuxtConfig({
     '@formkit/auto-animate'
   ],
 
-  css: ["@/assets/scss/global.scss"],
+  css: [
+    "@/assets/scss/global.scss",
+  ],
+
+  colorMode: {
+    preference: 'system',
+    fallback: 'light',
+    classSuffix: '',
+    storageKey: 'nuxt-color-mode'
+  }
 })
