@@ -1,4 +1,4 @@
-export async function fetchRegister(email: string, password: string) {
+export async function fetchRegister(email: string, password: string, user: string) {
         const response = await fetch(`http://127.0.0.1:8000/api/register`, {
             method: 'POST',
             headers: {
@@ -6,7 +6,8 @@ export async function fetchRegister(email: string, password: string) {
             },
             body: JSON.stringify({
                 email: email,
-                password: password
+                password: password,
+                username:user
             })
         });
 
