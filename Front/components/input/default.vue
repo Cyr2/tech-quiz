@@ -10,12 +10,16 @@
     </li>
 </template>
 // TODO: Fix, la couleur de bordure marche que la première condition.
+// TODO: Fix, la couleur de bordure marche que la première condition.
 <script setup>
     const props = defineProps({
         reponse: Object,
         selectedReponse: String,
-        updateSelectedReponse: Function
+        updateSelectedReponse: Function,
+        validatedReponse: Boolean | null
     });
+
+    console.log(props.validatedReponse.value)
 
     console.log(props.validatedReponse.value)
 </script>
