@@ -40,6 +40,7 @@ class AuthController
                 'email' => $user->email,
                 'role_id' => $user->role_id,
                 'id' => $user->user_id,
+                'username' => $request->username,
             ],
             'token' => $token,
         ]);
@@ -50,6 +51,7 @@ class AuthController
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+            'username' => 'required',
         ]);
 
         if(User::where('email', $request->email)->first()) {
@@ -58,11 +60,18 @@ class AuthController
             ]);
         }
 
+        if(User::where('username', $request->username)->first()) {
+            return response()->json([
+                'error' => 'Ce nom d\'utilisateur est déjà utilisé.'
+            ]);
+        }
+
         $user = User::create([
             'user_id' => Str::uuid(),
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => 2,
+            'username' => $request->username,
         ]);
 
         $token = Str::random(60);
@@ -73,6 +82,7 @@ class AuthController
                 'id' => $user->user_id,
                 'email' => $user->email,
                 'role_id' => $user->role_id,
+                'username' => $user->username,
             ],
             'token' => $token,
         ]);

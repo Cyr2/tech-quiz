@@ -3,11 +3,11 @@
         <h1>register</h1>
         <form @submit.prevent="submit">
             <input type="email" placeholder="email" v-model="email">
-            <input type="email" placeholder="verification email" v-model="verificationEmail">
-            <input type="password" placeholder="password" v-model="password" @input="error">
-            <button @click="viewPassword">visualiser password</button>
+            <input type="text" placeholder="username" v-model="username">
+            <input type="password" placeholder="password" v-model="password" @input="error" id="password">
+            <button @click="viewPassword" type="button">visualiser password</button>
             <p v-if="errorPassword">{{ errorPassword }}</p>
-            <input type="submit">Register</input>
+            <input type="submit" value="register">
             <NuxtLink to="/login">login</NuxtLink>
         </form>
         <p v-if="errorMessage">{{ errorMessage }}</p>
@@ -23,13 +23,13 @@ const user = useAuth();
 
 const register = ref(null);
 const email = ref('');
-const verificationEmail = ref('');
+const username = ref('');
 const password = ref('');
 const errorMessage = ref('');
 const errorPassword = ref('');
 
 const viewPassword = () => {
-    const input = document.querySelector('input[type="password"]');
+    const input = document.querySelector('#password');
     if(input.type === 'password'){
         input.type = 'text';
     }else{
@@ -76,13 +76,8 @@ const submit = async () => {
         return;
     }
 
-    if(!email.value || !password.value){
+    if(!email.value || !password.value || !username.value){
         errorMessage.value = 'remplissez tous les champs';
-        return;
-    }
-
-    if(email.value !== verificationEmail.value){
-        errorMessage.value = 'les emails ne correspondent pas';
         return;
     }
 
