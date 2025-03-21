@@ -106,7 +106,7 @@ const submit = async () => {
             return;
         }
 
-    register.value = await fetchRegister(email.value, password.value);
+    register.value = await fetchRegister(email.value, password.value, username.value);
     if (register.value.error) {
         errorMessage.value = register.value.error;
         return;
