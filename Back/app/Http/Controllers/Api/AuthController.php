@@ -18,10 +18,16 @@ class AuthController
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if(!$user) {
             return response()->json([
-                'message' => 'Les identifiants fournis sont incorrects.'
-            ], 401);
+                'error' => 'L\'email fournis n\'est pas enregistrer.'
+            ]);
+        }
+
+        if (!Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'error' => 'Le mot de passe n\'est pas correct .'
+            ]);
         }
 
         $token = Str::random(60);
@@ -31,9 +37,10 @@ class AuthController
         return response()->json([
             'message' => 'Connexion réussie',
             'user' => [
-                'id' => $user->id,
                 'email' => $user->email,
                 'role_id' => $user->role_id,
+                'id' => $user->user_id,
+                'username' => $request->username,
             ],
             'token' => $token,
         ]);
@@ -44,19 +51,27 @@ class AuthController
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+            'username' => 'required',
         ]);
 
-        if(User::where('email', $request->email)->exists()) {
+        if(User::where('email', $request->email)->first()) {
             return response()->json([
-                'message' => 'Cet email est déjà utilisé.'
-            ], 400);
+                'error' => 'Cet email est déjà utilisé.'
+            ]);
+        }
+
+        if(User::where('username', $request->username)->first()) {
+            return response()->json([
+                'error' => 'Ce nom d\'utilisateur est déjà utilisé.'
+            ]);
         }
 
         $user = User::create([
             'user_id' => Str::uuid(),
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            // 'role_id' => 1,
+            'role_id' => 2,
+            'username' => $request->username,
         ]);
 
         $token = Str::random(60);
@@ -64,16 +79,12 @@ class AuthController
         return response()->json([
             'message' => 'Utilisateur enregistré avec succès',
             'user' => [
-                'id' => $user->id,
+                'id' => $user->user_id,
                 'email' => $user->email,
+                'role_id' => $user->role_id,
+                'username' => $user->username,
             ],
             'token' => $token,
         ]);
-    }
-
-    public function logout(Request $request)
-    {
-        // Ici, vous pouvez invalider le token si vous le stockez quelque part
-        return response()->json(['message' => 'Déconnexion réussie']);
     }
 }
