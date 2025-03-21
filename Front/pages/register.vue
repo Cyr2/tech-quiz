@@ -1,21 +1,21 @@
 <template>
-    <div class="bg-gray-200 text-gray-800 h-screen w-screen flex flex-col justify-center items-center">
+    <div class="flex flex-col justify-center items-center">
         <div class="flex flex-col justify-between items-center bg-white p-14 rounded-2xl shadow-md gap-4">
             <hgroup class="flex flex-col items-center gap-2">     
-                <h1 class="font-medium text-2xl">Create to Account</h1>
+                <h1 class="font-medium text-2xl text-black">Create to Account</h1>
                 <p class="text-sm text-gray-600">Create a account to continue</p>
             </hgroup>
             <form @submit.prevent="submit" class="flex flex-col justify-between items-center w-full gap-4">
                 <div class="flex flex-col w-full gap-2">
-                    <label for="email">Email address:</label>
+                    <label for="email" class="text-black">Email address:</label>
                     <input type="text" placeholder="esteban_schiller@gmail.com" v-model="email" required class="rounded-lg bg-gray-100 p-3 border-2" id="email">
                 </div>
                 <div class="flex flex-col w-full gap-2">
-                    <label for="username">Username</label>
+                    <label for="username" class="text-black">Username</label>
                     <input type="text" placeholder="username" v-model="username" required class="rounded-lg bg-gray-100 p-3 border-2" id="username">
                 </div>
                 <div class="flex flex-col w-full gap-2">
-                    <label for="passord">Password</label>
+                    <label for="passord" class="text-black">Password</label>
                     <div class="flex items-center gap-2">
                         <input type="password" placeholder="password" v-model="password" required @input="error" id="password" class="rounded-lg bg-gray-100 p-3 border-2 w-10/12">
                         <button @click="viewPassword" type="button" class="bg-blue-500 text-white px-4 py-3 text-base rounded-lg "><img src="../public/assets/yeux.png" alt="yeux" class="w-9"></button>
@@ -27,7 +27,7 @@
                 <p v-if="errorMessage" class="text-red-500">{{ errorMessage }}</p>
 
             </form>
-            <p class="flex gap-1">Already have an account?<NuxtLink to="/login" class="text-blue-500 underline decoration-solid">Login</NuxtLink></p>
+            <p class="flex gap-1 text-black">Already have an account?<NuxtLink to="/login" class="text-blue-500 underline decoration-solid">Login</NuxtLink></p>
         </div>
     </div>
     
