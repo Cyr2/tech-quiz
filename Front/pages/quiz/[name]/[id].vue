@@ -11,7 +11,7 @@
       </div>
       <div class="w-1/2 max-md:w-full flex flex-col gap-6">
         <ul :class="validatedReponse !== null ? 'pointer-events-none' : ''" class="flex flex-col w-full gap-4">
-          <InputDefault v-for="(reponse, index) in reponses" :key="reponse.id_reponse" :reponse="reponse" :selectedReponse="selectedReponse" :updateSelectedReponse="updateSelectedReponse" :letter="String.fromCharCode(65 + index)"/>
+          <InputDefault v-for="(reponse, index) in reponses" :key="reponse.id_reponse" :reponse="reponse" :selectedReponse="selectedReponse" :updateSelectedReponse="updateSelectedReponse" :letter="String.fromCharCode(65 + index)" :validatedReponse="validatedReponse" :correctReponse="correctReponse"/>
         </ul>
         <ButtonDefaultForm v-if="validatedReponse === null" :click="validateQuestion" :disabled="!selectedReponse">Valider</ButtonDefaultForm>
         <ButtonDefaultForm v-else-if="currentQuestion < questions.length - 1" :click="nextQuestion">Suivant</ButtonDefaultForm>
@@ -41,8 +41,7 @@ const currentQuestion = ref(0);
 const reponses = ref(null);
 const selectedReponse = ref(null);
 const validatedReponse = ref(null);
-
-const currentProgress = computed(() => currentQuestion.value + 1);
+const correctReponse = ref(null);
 
 const updateSelectedReponse = (id_reponse) => {
   selectedReponse.value = id_reponse;
@@ -50,7 +49,7 @@ const updateSelectedReponse = (id_reponse) => {
 
 const validateQuestion = () => {
   if(selectedReponse) {
-    validatedReponse.value = reponses.value.find((reponse) => reponse.id_reponse === selectedReponse.value).is_correct;
+    validatedReponse.value = reponses.value.find((reponse) => reponse.id_reponse === selectedReponse.value).isCorrect;
 
     if (validatedReponse) {
       score.value++;
@@ -63,6 +62,7 @@ const nextQuestion = async () => {
   selectedReponse.value = null;
   currentQuestion.value++;
   reponses.value = await fetchReponses(questions.value[currentQuestion.value].id_question);
+  correctReponse.value = reponses.value.find((reponse) => reponse.isCorrect).id_reponse;
   
 }
 
@@ -71,6 +71,7 @@ onMounted(async () => {
     questions.value = await fetchQuestions(id.value);
     if (questions.value && questions.value.length > 0) {
       reponses.value = await fetchReponses(questions.value[currentQuestion.value].id_question);
+      correctReponse.value = reponses.value.find((reponse) => reponse.isCorrect).id_reponse;
     }
   } catch (error) {
     console.error('Erreur lors du chargement:', error);
