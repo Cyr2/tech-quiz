@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex flex-col gap-16">
+  <div class="h-full flex flex-col justify-between gap-16 w-2/3">
     <h1 class="uppercase">{{ name }}</h1>
     <div v-if="questions && reponses" class="flex justify-between gap-16 max-md:flex-col">
       <div class="flex flex-col justify-between w-1/2 pb-20 gap-8 max-md:w-full">
@@ -15,12 +15,14 @@
         </ul>
         <ButtonDefaultForm v-if="validatedReponse === null" :click="validateQuestion" :disabled="!selectedReponse">Valider</ButtonDefaultForm>
         <ButtonDefaultForm v-else-if="currentQuestion < questions.length - 1" :click="nextQuestion">Suivant</ButtonDefaultForm>
+        <ButtonDefaultLink v-else-if="true" :to="`/result/1`">Terminer</ButtonDefaultLink>
         <ButtonDefaultForm v-else :click="submitQuiz">Terminer</ButtonDefaultForm>
       </div>
     </div>
     <div v-else>
       <p>Chargement...</p>
     </div>
+    <span></span>
   </div>
 </template>
 

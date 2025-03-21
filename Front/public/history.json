@@ -1,0 +1,18 @@
+{
+  "history": [
+    {
+      "history_id": 1,
+      "date": "2021-01-01",
+      "score": 1,
+      "quiz_id": "quz001",
+      "user_id": 1
+    },
+    {
+      "history_id": 2,
+      "date": "2021-01-02",
+      "score": 4,
+      "quiz_id": "quz002",
+      "user_id": 2
+    }
+  ]
+}
