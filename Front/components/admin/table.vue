@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
     <!-- table avec les infos utilisateurs -->
     <!-- Debugging: Show a message if no data is available -->
   <div v-if="!filteredData.length" class="text-center text-red-500">
@@ -52,16 +51,19 @@
   <!-- Afficher quel filtre est actif si il y en a un -->
   <h2 v-if="searched">Username searched: {{ searched }}</h2>
   <h2 v-if="min && max">Created between {{ min }} and {{ max }}</h2>
-=======
-  <table>
+  <table class="border-2 border-neutral-light bg-bg-primary">
+>>>>>>> 00ae9c6 (Admin | css affichage utilisateur)
     <thead>
         <tr>
-            <th v-for="colonne in Object.keys(data[0])" :key="colonne">{{ colonne }}</th>
+            <th v-for="colonne in Object.keys(data[0])" :key="colonne" class="px-4 py-2">{{ colonne }}</th>
+            <th colspan="2" class="px-4 py-2">Action</th>
         </tr>
     </thead>
     <tbody>
-        <tr v-for="row in data" :key="row.id">
-            <td v-for="value in row" :key="value">{{ value }}</td>
+        <tr v-for="row in data" :key="row.id" class="text-center border-2 border-neutral-light">
+            <td v-for="value in row" :key="value" class="px-4 py-2">{{ value }}</td>
+            <td class="px-4 py-2"><NuxtLink to="/admin/users/:id/update" class="btn btn-primary bg-highlight-medium text-bg-primary cursor-pointer rounded-md  px-2 py-1">Update</NuxtLink></td>
+            <td><button class="bg-support-error-medium text-bg-primary cursor-pointer rounded-md  px-2 py-1 mx-2">Delete</button></td>
         </tr>
     </tbody>
   </table>
