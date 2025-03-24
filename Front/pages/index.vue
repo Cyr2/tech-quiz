@@ -25,7 +25,6 @@ const quiz = ref(null);
 onMounted(async () => {
   try {
     quiz.value = await fetchQuiz();
-    console.log(quiz.value);
     
   } catch (error) {
     console.error(error);
