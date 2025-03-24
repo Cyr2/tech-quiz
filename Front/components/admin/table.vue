@@ -1,3 +1,4 @@
+
 <template>
     <!-- table avec les infos utilisateurs -->
     <!-- Debugging: Show a message if no data is available -->

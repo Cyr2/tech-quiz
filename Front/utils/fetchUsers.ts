@@ -13,8 +13,6 @@ export async function fetchUsers() {
 
     const data = await response.json();
 
-    
-
     return data;
 
 }
