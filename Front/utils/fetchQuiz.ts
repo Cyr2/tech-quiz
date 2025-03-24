@@ -1,12 +1,16 @@
+import { useAuth } from "../stores/auth.js";
+
 export async function fetchQuiz() {
-    const response = await fetch(`/quiz.json`);
-        
-    if (!response.ok) {
-        throw new Error(`Erreur HTTP: ${response.status}`);
-    }
+    const token  = useAuth();
+    const response = await fetch(`http://127.0.0.1:8000/api/quiz`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization':'Bearer ' + token.getToken()
+        }
+    });
 
     const data = await response.json();
-    const quiz = data.quiz;
         
-    return quiz;
+    return data;
 }
