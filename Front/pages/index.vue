@@ -11,7 +11,7 @@
 
     <ul class="flex flex-col gap-4 w-96">
       <li v-for="subject in quiz" :key="subject.id_quiz">
-        <NuxtLink class="text-text-primary bg-bg-primary p-4 rounded-lg shadow-md flex flex-row items-center gap-2" :to="`/quiz/${subject.title.replace(' ', '-')}/${subject.id_quiz}`">{{ subject.title }}</NuxtLink>
+        <NuxtLink class="text-text-primary bg-bg-primary p-4 rounded-lg shadow-md flex flex-row items-center gap-2" :to="`/quiz/${subject.title.replace(' ', '-')}/${subject.quiz_id}`">{{ subject.title }}</NuxtLink>
       </li>
     </ul>
   </div>
@@ -25,7 +25,6 @@ const quiz = ref(null);
 onMounted(async () => {
   try {
     quiz.value = await fetchQuiz();
-    console.log(quiz.value);
     
   } catch (error) {
     console.error(error);
