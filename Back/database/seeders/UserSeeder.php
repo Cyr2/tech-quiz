@@ -36,16 +36,6 @@ class UserSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'user_id' => Str::uuid()->toString(),
-                'email' => 'teacher@example.com',
-                'username' => 'teacher',
-                'email_verified_at' => now(),
-                'password' => Hash::make('password'),
-                'role_id' => DB::table('role')->where('name', 'teacher')->first()->role_id,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
         ];
 
         // Insérer les utilisateurs
