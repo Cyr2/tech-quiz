@@ -1,10 +1,9 @@
 installer le back :
 
 cd back
-creer la bdd tech_quiz 
+composer i
+creer la bdd sur phpmyadmin : tech_quiz 
 php artisan migrate:fresh
-rajouter le role admin en id 1
-rajouter le role utilisateur en id 2 
 
 cd ..
 pnpm back

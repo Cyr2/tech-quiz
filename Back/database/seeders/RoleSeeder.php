@@ -24,11 +24,6 @@ class RoleSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'name' => 'teacher',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
         ];
 
         // Insérer les rôles
