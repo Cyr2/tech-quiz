@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('question', function (Blueprint $table) {
-            $table->id('question_id');
+            $table->string('question_id')->primary();
             $table->string('label');
-            $table->unsignedBigInteger('quiz_id');
+            $table->string('quiz_id');
             $table->foreign('quiz_id')->references('quiz_id')->on('quiz');
             $table->timestamps();
         });

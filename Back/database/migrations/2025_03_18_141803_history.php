@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         schema::create('history', function (Blueprint $table) {
-            $table->id('history_id');
+            $table->string('history_id')->primary();
             $table->date('date');
             $table->string('score');
             $table->string('user_id')->references('user_id')->on('user');
-            $table->unsignedBigInteger('quiz_id');
+            $table->string('quiz_id');
             $table->foreign('quiz_id')->references('quiz_id')->on('quiz');
             $table->timestamps();
         });
