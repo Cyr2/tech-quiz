@@ -1,5 +1,5 @@
-
 <template>
+<<<<<<< HEAD
     <!-- table avec les infos utilisateurs -->
     <!-- Debugging: Show a message if no data is available -->
   <div v-if="!filteredData.length" class="text-center text-red-500">
@@ -52,6 +52,20 @@
   <!-- Afficher quel filtre est actif si il y en a un -->
   <h2 v-if="searched">Username searched: {{ searched }}</h2>
   <h2 v-if="min && max">Created between {{ min }} and {{ max }}</h2>
+=======
+  <table>
+    <thead>
+        <tr>
+            <th v-for="colonne in Object.keys(data[0])" :key="colonne">{{ colonne }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr v-for="row in data" :key="row.id">
+            <td v-for="value in row" :key="value">{{ value }}</td>
+        </tr>
+    </tbody>
+  </table>
+>>>>>>> 5e5fdd5 (composant tableau admin)
 </template>
 
 <script setup>
@@ -133,4 +147,5 @@
 
         return result;
     });
+    
 </script>
