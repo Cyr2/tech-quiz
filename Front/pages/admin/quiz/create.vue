@@ -33,6 +33,10 @@
 </template>
 
 <script setup>
+
+import { fetchCreateQuiz } from '../../../utils/fetchCreateQuiz';
+
+
 const quiz = ref({
     title: '',
     questions: [
@@ -56,8 +60,20 @@ const addQuestion = () => {
     });
 }
 
-const addQuiz = () => {
-    console.log(quiz.value);
+const addQuiz = async () => {
+    const transformedQuiz = {
+        ...quiz.value,
+        questions: quiz.value.questions.map(question => ({
+            ...question,
+            answers: question.answers.map(answer => ({
+                ...answer,
+                isCorrect: answer.isCorrect ? 1 : 0
+            }))
+        }))
+    };
+    console.log(transformedQuiz);
+    const data = await fetchCreateQuiz(transformedQuiz);
+    console.log(data);    
 }
 
 const addAnswer = (questionIndex) => {
