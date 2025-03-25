@@ -15,4 +15,3 @@ export async function fetchQuiz(quiz_id: string) {
         
     return data;
 }
-
