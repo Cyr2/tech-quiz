@@ -23,13 +23,13 @@ class QuizController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'title' => 'required',
             'date' => 'required',
         ]);
 
         $quiz = Quiz::create([
             'quiz_id' => Str::uuid(),
-            'name' => $request->name,
+            'title' => $request->title,
             'date' => $request->date,
         ]);
 
@@ -37,7 +37,7 @@ class QuizController extends Controller
             'message' => 'Quiz créé avec succès',
             'quiz' => [
                 'id' => $quiz->quiz_id,
-                'name' => $quiz->name,
+                'title' => $quiz->title,
                 'date' => $quiz->date,
             ],
         ]);
