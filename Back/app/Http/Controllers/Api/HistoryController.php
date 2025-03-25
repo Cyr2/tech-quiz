@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\History;
+use App\Models\History; // Ensure the History model is imported
 
 class HistoryController extends Controller
 {
@@ -54,7 +54,7 @@ class HistoryController extends Controller
      */
     public function show(string $id)
     {
-        return History::findOrFail($id);
+        return History::where('history_id', $id)->first();
     }
 
     public function showByUser(string $id)

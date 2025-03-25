@@ -20,6 +20,9 @@
         <ButtonDefaultLink to="/">Retour à la liste des quiz</ButtonDefaultLink>
       </article>
     </div>
+    <div v-if="error" class="text-red-500">
+      An error occurred: {{ error }}
+    </div>
     <span></span>
   </div>
 </template>
@@ -32,21 +35,23 @@ import { fetchQuestions } from '../../utils/fetchQuestions';
 const route = useRoute();
 const id_history = computed(() => route.params.id);
 
-console.log(id_history.value);
-
-
 const history = ref(null);
 const quiz = ref(null);
 const questions = ref(null);
+const error = ref(null);
 
 onMounted(async () => {
-  history.value = await fetchHistory(id_history.value);
-  
-  const allQuiz = await fetchQuiz();
+  try {
+    history.value = await fetchHistory(id_history.value);
+    if (!history.value) throw new Error('Failed to fetch history data.');
 
-  quiz.value = allQuiz.find((currQuiz) => currQuiz.id_quiz === history.value.quiz_id);
+    quiz.value = await fetchQuiz(history.value.quiz_id);
 
-  questions.value = await fetchQuestions(history.value.quiz_id);
+    questions.value = await fetchQuestions(history.value.quiz_id);    
+  } catch (err) {
+    console.error('Error fetching data:', err);
+    error.value = err.message || 'An unexpected error occurred.';
+  }
 });
 </script>
 

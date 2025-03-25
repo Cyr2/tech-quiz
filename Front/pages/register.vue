@@ -115,6 +115,7 @@ const submit = async () => {
     }
 
     user.insertToken(register.value.token);
+    user.insertUserId(login.value.user.id);
     user.initializeUser(register.value.user.id, register.value.user.email);
 
     navigateTo('/');

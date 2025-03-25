@@ -18,13 +18,13 @@
 </template>
 
 <script setup>
-import { fetchQuiz } from "../utils/fetchQuiz.ts";
+import { fetchAllQuiz } from "../utils/fetchAllQuiz.js";
 
 const quiz = ref(null);
 
 onMounted(async () => {
   try {
-    quiz.value = await fetchQuiz();
+    quiz.value = await fetchAllQuiz();
     
   } catch (error) {
     console.error(error);

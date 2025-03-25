@@ -9,6 +9,7 @@ export const useAuth = defineStore('auth', {
     initializeUser(id, email) {
       if (typeof window !== 'undefined') {
         const token = localStorage.getItem('token');
+        
         if (token) {
           this.id = id;
           this.email = email;
@@ -20,6 +21,11 @@ export const useAuth = defineStore('auth', {
         localStorage.setItem('token', token);
       }
     },
+    insertUserId(id) {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('userId', id);
+      }
+    },
     removeToken() {
       if (typeof window !== 'undefined') {
         localStorage.removeItem('token');
@@ -27,9 +33,19 @@ export const useAuth = defineStore('auth', {
         this.email = null;
       }
     },
+    removeUserId() {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('userId');
+      }
+    },
     getToken() {
       if (typeof window !== 'undefined') {
         return localStorage.getItem('token');
+      }
+    },
+    getUserId() {
+      if (typeof window !== 'undefined') {
+        return this.id;
       }
     }
   },

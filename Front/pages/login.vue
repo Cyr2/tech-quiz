@@ -113,6 +113,7 @@ const submit = async () => {
         }
     
         user.insertToken(login.value.token);
+        user.insertUserId(login.value.user.id);
         user.initializeUser(login.value.user.id, login.value.user.email);
         
         navigateTo('/');
