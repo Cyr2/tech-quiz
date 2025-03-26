@@ -22,7 +22,7 @@
                     </div>
                     <p v-if="errorPassword" class="text-support-error-medium">{{ errorPassword }}</p>
                 </div>
-                <input type="submit" value="Sign in" class="bg-highlight-medium text-neutral-dark-dark px-4 py-2 w-full mt-4 text-base rounded-lg">
+                <input type="submit" value="Sign in" class="bg-highlight-medium text-neutral-dark-dark px-4 py-2 w-full mt-4 text-base rounded-lg" :disabled="submitted">
                 <p v-if="errorMessage" class="text-support-error-medium">{{ errorMessage }}</p>
             </form>
             <p class="flex gap-1 text-text-primary">Already have an account?<NuxtLink to="/login" class="text-highlight-medium underline decoration-solid">Login</NuxtLink></p>
@@ -35,6 +35,10 @@
 import { useAuth } from "../stores/auth.js";
 import { fetchRegister } from "../utils/fetchRegister.ts";
 
+definePageMeta({
+    layout: 'auth'
+});
+
 const user = useAuth();
 
 const register = ref(null);
@@ -43,6 +47,7 @@ const username = ref('');
 const password = ref('');
 const errorMessage = ref('');
 const errorPassword = ref('');
+const submitted = ref(false);
 
 const viewPassword = () => {
     const input = document.querySelector('#password');
@@ -98,13 +103,16 @@ const submit = async () => {
     }
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
-        if (!emailPattern.test(email.value.trim())) {
-            errorMessage.value = 'Veuillez entrer une adresse email valide';
-            return;
-        }
 
+    if (!emailPattern.test(email.value.trim())) {
+        errorMessage.value = 'Veuillez entrer une adresse email valide';
+        return;
+    }
+
+    submitted.value = true;
     register.value = await fetchRegister(email.value, password.value, username.value);
     if (register.value.error) {
+        submitted.value = false;
         errorMessage.value = register.value.error;
         return;
     } else {
@@ -112,7 +120,7 @@ const submit = async () => {
     }
 
     user.insertToken(register.value.token);
-    user.insertUserId(login.value.user.id);
+    user.insertUserId(register.value.user.id);
     user.initializeUser(register.value.user.id, register.value.user.email);
 
     navigateTo('/');

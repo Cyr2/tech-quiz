@@ -2,7 +2,7 @@ import { useAuth } from "../stores/auth.js";
 
 export default defineNuxtRouteMiddleware((to, from) => {
   
-  let isAuthenticated = false; // TODO: Remplacer par la logique d'authentification
+  let isAuthenticated = false;
   const auth = useAuth()
 
   if(auth.getToken() !== null) {

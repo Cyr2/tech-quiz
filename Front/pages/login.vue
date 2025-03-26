@@ -20,7 +20,7 @@
                     <p v-if="errorPassword" class="text-support-error-medium">{{ errorPassword }}</p>
 
                 </div>
-                <input type="submit" value="Sign in" class="bg-highlight-medium text-neutral-dark-dark px-4 py-2 w-full mt-4 text-base rounded-lg">
+                <input type="submit" value="Sign in" class="bg-highlight-medium text-neutral-dark-dark px-4 py-2 w-full mt-4 text-base rounded-lg" :disabled="submitted">
                 <p v-if="errorMessage" class="text-support-error-medium">{{ errorMessage }}</p>
             </form>
             <p class="flex gap-1 text-text-primary">Don’t have an account?<NuxtLink to="/register" class="text-highlight-medium underline decoration-solid">Create Account</NuxtLink></p>
@@ -29,10 +29,12 @@
 </template>
     
 <script setup>
-
-
 import { fetchLogin } from "../utils/fetchLogin.ts";
 import { useAuth } from "../stores/auth.js";
+
+definePageMeta({
+    layout: 'auth'
+});
 
 const user = useAuth();
 
@@ -41,6 +43,7 @@ const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
 const errorPassword = ref('');
+const submitted = ref(false);
 
 const viewPassword = () => {
     const input = document.querySelector('#password');
@@ -101,22 +104,22 @@ const submit = async () => {
         return;
     }
 
-        login.value = await fetchLogin(email.value, password.value);
-        if(login.value.error){
-            errorMessage.value = login.value.error;
-            return;
-        }
-        else{
-            errorMessage.value = '';
-        }
-    
-        user.insertToken(login.value.token);
-        user.insertUserId(login.value.user.id);
-        user.initializeUser(login.value.user.id, login.value.user.email, login.value.user.role_id);
-        
-        navigateTo('/');
+    submitted.value = true;
+    login.value = await fetchLogin(email.value, password.value);
+    if(login.value.error){
+        submitted.value = false;
+        errorMessage.value = login.value.error;
+        return;
+    }
+    else{
+        errorMessage.value = '';
+    }
 
+    user.insertToken(login.value.token);
+    user.insertUserId(login.value.user.id);
+    user.initializeUser(login.value.user.id, login.value.user.email, login.value.user.role_id);
     
+    navigateTo('/');
 }
 
 </script>
