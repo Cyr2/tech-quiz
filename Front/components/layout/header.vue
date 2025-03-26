@@ -8,11 +8,29 @@
         <li>
           <NuxtLink to="/history">History</NuxtLink>
         </li>
+        <li v-if="isAdmin">
+          <NuxtLink to="/admin">Admin</NuxtLink>
+        </li>
         <li>
-          <NuxtLink to="/Logout">Logout</NuxtLink>
+          <button @click="logout">Logout</button>
         </li>
       </ul>
     </nav>
     <ButtonColorMode />
   </header>
 </template>
+
+<script setup>
+import { useAuth } from '~/stores/auth';
+import { computed } from 'vue';
+
+const auth = useAuth();
+
+const isAdmin = computed(() => auth.getRole() === '1');
+
+const logout = () => {
+  auth.removeToken();
+  auth.removeUserId();
+  navigateTo('/login');
+};
+</script>
