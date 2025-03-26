@@ -5,7 +5,7 @@
         <li>
           <NuxtLink to="/">Home</NuxtLink>
         </li>
-        <li>
+        <li v-if="isLoggedIn">
           <NuxtLink to="/history">History</NuxtLink>
         </li>
         <li v-if="isAdmin">
