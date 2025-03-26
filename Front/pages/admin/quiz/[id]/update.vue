@@ -74,6 +74,7 @@
 </template>
 
 <script setup>
+
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { fetchQuizById } from '../../../../utils/fetchQuizById';
@@ -126,11 +127,11 @@ const addAnswer = (questionIndex) => {
         tab.value.questions[questionIndex].answers.push({ label: '', isCorrect: false, answerId: '' });
     }
 };
-
+ 
 const removeAnswer = (questionIndex, answerIndex) => {
     if (tab.value.questions[questionIndex].answers.length > 2) {
         tab.value.questions[questionIndex].answers.splice(answerIndex, 1);
-    }
+    } 
 };
 
 const verifQuiz = () => {
