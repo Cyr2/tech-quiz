@@ -2,7 +2,6 @@
     <form action="/" method="post" class="flex flex-col gap-4 w-3xl">
         <div class="flex flex-row justify-between">
             <label for="title" class="font-bold text-yellow-500">Titre</label>
-            <button class="text-red-400">Supprimer le quiz</button>
         </div>
         <input type="text" id="title" name="title" class="border-2 border-solid border-solid p-2 rounded-md" :value="tab.title">
 
@@ -87,21 +86,10 @@ const tab = ref({
     title: 'Nouveau quiz',
     questions: [
         {
-            label: 'Comment ça va ?',
+            label: 'question ?',
             answers: [
-                { label: 'Bien', isCorrect: "on" },
-                { label: 'Mal', isCorrect: false },
-                { label: 'Oui', isCorrect: false },
-                { label: 'Toi je t\'aime pas', isCorrect: false }
-            ],
-        },
-        {
-            label: 'Comment tu t\'appelles ?',
-            answers: [
-                { label: 'Jean', isCorrect: false },
-                { label: 'Paul', isCorrect: false },
-                { label: 'Jacques', isCorrect: false },
-                { label: 'Je sais pas', isCorrect: "on" }
+                { label: '', isCorrect: false },
+                { label: '', isCorrect: false }
             ],
         }
     ],
@@ -153,23 +141,42 @@ const removeAnswer = (questionIndex, answerIndex) => {
 };
 
 onMounted(async () => {
+
         const quizData = await fetchQuizById(id.value);
+        console.log(quizData);
         if(quizData){
             tab.value.title = quizData.title;
         }
-
+ 
         const questionsData = await fetchQuestionsByIdQuiz(id.value);
         if(questionsData){
-            tab.value.questions = questionsData;
-            console.log(tab.value.questions);
-            
-            for (let i = 0; i < tab.value.questions.length; i++) {
-                console.log(tab.value.questions[i].quiz_id);
-                const answersData = await fetchAnswersByIdQuestion(tab.value.questions[i].quiz_id);
+            for (let i = 0; i < questionsData.length; i++) {
+                console.log(questionsData[i]);
+                console.log(tab.value.questions[i]);
+                    if(tab.value.questions[i].label == undefined){
+                        tab.value.questions.push({
+                            label: 'Nouvelle question ?',
+                            answers: [
+                                { label: '', isCorrect: false },
+                                { label: '', isCorrect: false },
+                            ],
+                        });
+                    }
+                    tab.value.questions[i].label = questionsData[i].label;
+
+
+                const answersData = await fetchAnswersByIdQuestion(questionsData[i].question_id);
                 if(answersData){
-                    console.log(answersData);
-                    
-                    tab.value.questions[i].answers = answersData;
+                    for (let j = 0; j < answersData.length; j++) {
+                        if(tab.value.questions[i].answers[j].label == 'undefined'){
+                            tab.value.questions[i].answers.push({ label: '', isCorrect: false });
+                        }
+                        
+                        console.log(answersData[j]);
+                        console.log(tab.value.questions[i].answers[j]);
+                        tab.value.questions[i].answers[j].label = answersData[j].label;
+                        tab.value.questions[i].answers[j].isCorrect = answersData[j].isCorrect;
+                    }
                 }
             }
         }
