@@ -23,7 +23,7 @@
         </ul>
         <ButtonDefaultForm v-if="validatedReponse === null" :click="validateQuestion" :disabled="!selectedReponse">Valider</ButtonDefaultForm>
         <ButtonDefaultForm v-else-if="currentQuestion < questions.length - 1" :click="nextQuestion">Suivant</ButtonDefaultForm>
-        <ButtonDefaultForm v-else :click="submitQuiz">Terminer</ButtonDefaultForm>
+        <ButtonDefaultForm v-else :click="submitQuiz" :disabled="quizSubmitted">{{quizSubmitted ? "Envoi en cours" : "Terminer"}}</ButtonDefaultForm>
       </div>
       <div v-else class="w-1/2 max-md:w-full flex flex-col gap-6">
         <ul class="flex flex-col w-full gap-4">
@@ -56,6 +56,7 @@ const reponses = ref(null);
 const selectedReponse = ref(null);
 const validatedReponse = ref(null);
 const correctReponse = ref(null);
+const quizSubmitted = ref(false);
 
 const updateSelectedReponse = (answer_id) => {
   selectedReponse.value = answer_id;
@@ -80,13 +81,14 @@ const nextQuestion = async () => {
 }
 
 const submitQuiz = async () => {
+  quizSubmitted.value = true;
   try {
     const reponse = await fetchStoreHistory(score.value, id.value);
-    console.log('Reponse:', reponse);
     navigateTo('/result/' + reponse.history.id);
   } catch (error) {
     console.error('Erreur lors de la soumission du quiz:', error);
     alert('Une erreur est survenue lors de la soumission. Veuillez réessayer plus tard.');
+    quizSubmitted.value = false;
   }
 };
 

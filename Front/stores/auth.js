@@ -9,7 +9,7 @@ export const useAuth = defineStore('auth', {
     initializeUser(id, email) {
       if (typeof window !== 'undefined') {
         const token = localStorage.getItem('token');
-        
+
         if (token) {
           this.id = id;
           this.email = email;
@@ -45,7 +45,7 @@ export const useAuth = defineStore('auth', {
     },
     getUserId() {
       if (typeof window !== 'undefined') {
-        return this.id;
+        return localStorage.getItem('userId');
       }
     }
   },

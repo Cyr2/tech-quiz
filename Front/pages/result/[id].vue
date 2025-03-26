@@ -1,7 +1,7 @@
 <template>
   <div class="h-full w-2/3 flex flex-col gap-16 justify-between">
     <h1 class="uppercase" v-if="quiz">{{ quiz.title }}</h1>
-    <h1 v-else>Loading...</h1>
+    <USkeleton v-else class="w-36 h-6" />
     <div class="w-full flex gap-16 max-md:flex-col">
       <h2 class="text-5xl font-extralight w-full">
         Quiz completed
@@ -11,11 +11,11 @@
       <article class="flex flex-col gap-4 w-full">
         <div class="px-16 py-8 bg-bg-primary rounded-lg shadow-md flex flex-col gap-4 items-center">
           <p v-if="quiz">{{ quiz.title }}</p>
-          <p v-else>Loading...</p>
+          <USkeleton v-else class="w-full h-6" />
           <p v-if="history" class="text-8xl font-bold">{{ history.score }}</p>
-          <p v-else>Loading...</p>
+          <USkeleton v-else class="w-full h-24" />
           <p v-if="questions">out of {{ questions.length }}</p>
-          <p v-else>Loading...</p>
+          <USkeleton v-else class="w-full h-6" />
         </div>
         <ButtonDefaultLink to="/">Retour à la liste des quiz</ButtonDefaultLink>
       </article>

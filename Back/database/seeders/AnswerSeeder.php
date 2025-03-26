@@ -328,11 +328,25 @@ class AnswerSeeder extends Seeder
             'Web Accessibility Quiz' => $accessibilityQuizAnswers
         ];
 
+        $quizQuestionsMap = [
+            'JavaScript Quiz' => $jsQuestions,
+            'HTML Quiz' => $htmlQuestions,
+            'CSS Quiz' => $cssQuestions,
+            'Web Accessibility Quiz' => $accessibilityQuestions,
+        ];
+
         foreach ($quizzes as $quizTitle => $quizAnswers) {
             $quizId = DB::table('quiz')->where('title', $quizTitle)->first()->quiz_id;
             $questions = DB::table('question')->where('quiz_id', $quizId)->get();
 
-            foreach ($questions as $index => $question) {
+            foreach ($questions as $question) {
+                // Utilisez la correspondance explicite pour obtenir les questions
+                $questionIndex = array_search($question->label, $quizQuestionsMap[$quizTitle]);
+
+                if ($questionIndex === false) {
+                    continue; // Skip if the question is not found
+                }
+
                 $answers = array_map(function($answer) use ($question) {
                     return [
                         'label' => $answer[0],
@@ -341,7 +355,7 @@ class AnswerSeeder extends Seeder
                         'created_at' => now(),
                         'updated_at' => now(),
                     ];
-                }, $quizAnswers[$index]);
+                }, $quizAnswers[$questionIndex]);
 
                 DB::table('answer')->insert($answers);
             }
