@@ -1,5 +1,6 @@
 import { useAuth } from "../stores/auth.js";
 
+/* Fonction pour fetch tout les quiz */
 export async function fetchAllQuiz() {
     const token  = useAuth();
     const response = await fetch(`http://127.0.0.1:8000/api/quiz`, {

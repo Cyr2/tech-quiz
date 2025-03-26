@@ -5,6 +5,7 @@
                 <h1 class="font-medium text-2xl text-text-primary">Create an Account</h1>
                 <p class="text-sm text-text-secondary">Create an account to continue</p>
             </hgroup>
+            <!-- formulaire contenant les informations pour l'ajout d'un utilisateur -->
             <form @submit.prevent="submit" class="flex flex-col justify-between items-center w-full gap-4">
                 <div class="flex flex-col w-full gap-2">
                     <label for="email" class="text-text-primary">Email address:</label>
@@ -16,6 +17,7 @@
                 </div>
                 <div class="flex flex-col w-full gap-2">
                     <label for="passord" class="text-text-primary">Password</label>
+                    <!-- bouton permettant de visualiser le mot de passe -->
                     <div class="flex items-center gap-2">
                         <input type="password" placeholder="password" v-model="password" required @input="error" id="password" class="rounded-lg bg-bg-secondary p-3 border-2 w-10/12">
                         <button @click="viewPassword" type="button" class="bg-highlight-medium text-neutral-light-medium px-4 py-3 text-base rounded-lg "><img src="../public/assets/yeux.png" alt="yeux" class="w-9"></button>
@@ -25,6 +27,7 @@
                 <input type="submit" value="Sign in" class="bg-highlight-medium text-neutral-dark-dark px-4 py-2 w-full mt-4 text-base rounded-lg" :disabled="submitted">
                 <p v-if="errorMessage" class="text-support-error-medium">{{ errorMessage }}</p>
             </form>
+            <!-- lien vers le login -->
             <p class="flex gap-1 text-text-primary">Already have an account?<NuxtLink to="/login" class="text-highlight-medium underline decoration-solid">Login</NuxtLink></p>
         </div>
     </div>
@@ -39,6 +42,7 @@ definePageMeta({
     layout: 'auth'
 });
 
+/* définition des variables */
 const user = useAuth();
 
 const register = ref(null);
@@ -49,6 +53,7 @@ const errorMessage = ref('');
 const errorPassword = ref('');
 const submitted = ref(false);
 
+/* fonction pour la visualisation du mot de passe */
 const viewPassword = () => {
     const input = document.querySelector('#password');
     if(input.type === 'password'){
@@ -58,6 +63,7 @@ const viewPassword = () => {
     }
 };
 
+/* fonction pour gérer les erreurs */
 const error = () => {
 
     const hasUpperCase = /[A-Z]/.test(password.value);
@@ -91,6 +97,7 @@ const error = () => {
 
 };
 
+/* fonction pour valider l'envoi du formulaire et l'ajout d'un utilisateur */
 const submit = async () => {
 
     if(errorPassword.value){

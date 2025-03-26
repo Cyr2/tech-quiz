@@ -1,5 +1,6 @@
 import { useAuth } from "../stores/auth";
 
+/* fonction pour créer un historique */
 export async function fetchStoreHistory(score: number, quiz_id: number) {
 
     const token  = useAuth().getToken();

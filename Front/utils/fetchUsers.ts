@@ -1,5 +1,6 @@
 import { useAuth } from "../stores/auth.js";
 
+/* fonction pour fetch tout les utilisateurs */
 export async function fetchUsers() {
     const token  = useAuth();
 

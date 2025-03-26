@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController
 {
     /**
-     * Display a listing of the resource.
+     * Affichage de la liste des utilisateurs.
      */
     public function index()
     {
@@ -19,33 +20,41 @@ class UserController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Stocker un nouvel utilisateur.
      */
     public function store(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required',
             'role_id' => 'required',
         ]);
 
         if(User::where('email', $request->email)->exists()) {
             return response()->json([
-                'message' => 'Cet email est déjà utilisé.'
+                'error' => 'Cet email est déjà utilisé.'
+            ], 400);
+        }
+        if(User::where('username', $request->username)->exists()) {
+            return response()->json([
+                'error' => 'Ce nom d\'utilisateur est déjà utilisé.'
             ], 400);
         }
 
         $user = User::create([
             'user_id' => Str::uuid(),
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => $request->role_id,
         ]);
 
         return response()->json([
-            'message' => 'Utilisateur créé avec succès',
+            'success' => 'Utilisateur créé avec succès',
             'user' => [
                 'id' => $user->id,
+                'username' => $user->username,
                 'email' => $user->email,
                 'role_id' => $user->role_id,
             ],
@@ -53,7 +62,7 @@ class UserController
     }
 
     /**
-     * Display the specified resource.
+     * Afficher l'utilisateur spécifié.
      */
     public function show(string $id)
     {
@@ -61,7 +70,7 @@ class UserController
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour l'utilisateur spécifié.
      */
     public function update(Request $request, string $id)
     {
@@ -90,7 +99,7 @@ class UserController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer l'utilisateur spécifié.
      */
     public function destroy(string $id)
     {

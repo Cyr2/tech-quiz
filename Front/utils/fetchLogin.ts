@@ -1,3 +1,4 @@
+/* fonction pour se connecter */
 export async function fetchLogin(email: string, password: string) {
         const response = await fetch(`http://127.0.0.1:8000/api/login`, {
             method: 'POST',
