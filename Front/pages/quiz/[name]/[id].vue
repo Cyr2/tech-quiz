@@ -63,7 +63,6 @@ const nextQuestion = async () => {
   currentQuestion.value++;
   reponses.value = await fetchReponses(questions.value[currentQuestion.value].id_question);
   correctReponse.value = reponses.value.find((reponse) => reponse.isCorrect).id_reponse;
-  
 }
 
 onMounted(async () => {
