@@ -10,31 +10,31 @@
             <div class="flex flex-col gap-2">
                 <div class="flex flex-row justify-between">
                     <label for="question" class="font-bold">Question {{ currentQuestion + 1 }}</label>
-                    <button class="text-red-400">Supprimer</button>
+                    <button class="text-red-400">Supprimer la question</button>
                 </div>
                 <input type="text" id="question" name="question" class="border-2 border-solid p-2" :value="tab[currentQuestion].question">
 
                 <div class="flex flex-row justify-between">
                     <label for="answere1">Réponse 1</label>
-                    <button class="text-red-400">Supprimer</button>
+                    <button class="text-red-400">Supprimer la réponse</button>
                 </div>
                 <input type="text" id="answere1" name="answere1" class="border-2 border-solid p-2" :value="tab[currentQuestion].reponses[0]">
                 
                 <div class="flex flex-row justify-between">
                     <label for="answere1">Réponse 2</label>
-                    <button class="text-red-400">Supprimer</button>
+                    <button class="text-red-400">Supprimer la réponse</button>
                 </div>
                 <input type="text" id="answere2" name="answere2" class="border-2 border-solid p-2" :value="tab[currentQuestion].reponses[1]">
 
                 <div class="flex flex-row justify-between">
                     <label for="answere1">Réponse 3</label>
-                    <button class="text-red-400">Supprimer</button>
+                    <button class="text-red-400">Supprimer la réponse</button>
                 </div>
                 <input type="text" id="answere3" name="answere3" class="border-2 border-solid p-2" :value="tab[currentQuestion].reponses[2]">
 
                 <div class="flex flex-row justify-between">
                     <label for="answere1">Réponse 1</label>
-                    <button class="text-red-400">Supprimer</button>
+                    <button class="text-red-400">Supprimer la réponse</button>
                 </div>
                 <input type="text" id="answere4" name="answere4" class="border-2 border-solid p-2" :value="tab[currentQuestion].reponses[3]">
 
