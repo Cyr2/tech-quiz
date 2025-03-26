@@ -153,7 +153,7 @@ onMounted(async () => {
             for (let i = 0; i < questionsData.length; i++) {
                 console.log(questionsData[i]);
                 console.log(tab.value.questions[i]);
-                    if(tab.value.questions[i].label == undefined){
+                    if(!tab.value.questions[i]){
                         tab.value.questions.push({
                             label: 'Nouvelle question ?',
                             answers: [
@@ -168,14 +168,13 @@ onMounted(async () => {
                 const answersData = await fetchAnswersByIdQuestion(questionsData[i].question_id);
                 if(answersData){
                     for (let j = 0; j < answersData.length; j++) {
-                        if(tab.value.questions[i].answers[j].label == 'undefined'){
+                        if(!tab.value.questions[i].answers[j]){
                             tab.value.questions[i].answers.push({ label: '', isCorrect: false });
                         }
-                        
                         console.log(answersData[j]);
-                        console.log(tab.value.questions[i].answers[j]);
+                        console.log(answersData[j].is_correct);
                         tab.value.questions[i].answers[j].label = answersData[j].label;
-                        tab.value.questions[i].answers[j].isCorrect = answersData[j].isCorrect;
+                        tab.value.questions[i].answers[j].isCorrect = answersData[j].is_correct;
                     }
                 }
             }
