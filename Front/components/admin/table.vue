@@ -67,7 +67,13 @@
         </tr>
     </tbody>
   </table>
+<<<<<<< HEAD
 >>>>>>> 5e5fdd5 (composant tableau admin)
+=======
+  <!-- Afficher quel filtre est actif si il y en a un -->
+  <h2 v-if="searched">Username searched: {{ searched }}</h2>
+  <h2 v-if="min && max">Created between {{ min }} and {{ max }}</h2>
+>>>>>>> 7c6527c (commentaires)
 </template>
 
 <script setup>
