@@ -80,6 +80,7 @@ const route = useRoute();
 
 const id = computed(() => route.params.id);
 
+
 const tab = ref({
     title: 'Ceci est un nom de quiz',
     questions: [
@@ -152,9 +153,10 @@ const removeAnswer = (questionIndex, answerIndex) => {
 onMounted(async () => {
     try {
         const quizData = await fetchQuizById(id.value);
-        if (quizData) {
-            tab.value = quizData;
-        }
+        // if (quizData) {
+        //     tab.value = quizData;
+        // }
+        console.log(quizData);
     } catch (error) {
         console.error(error);
     }
