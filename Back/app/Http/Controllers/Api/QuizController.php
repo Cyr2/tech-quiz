@@ -48,7 +48,7 @@ class QuizController extends Controller
      */
     public function show(string $id)
     {
-        return Quiz::findOrFail($id);
+        return Quiz::where('quiz_id', $id)->first();
     }
 
     /**
