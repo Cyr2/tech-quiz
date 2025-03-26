@@ -18,6 +18,10 @@ export async function fetchCreateQuiz(quiz : any) {
 
     const data = await createQuiz.json();
 
+    if(data.error) {
+        return data;
+    }
+
     quiz.questions.map( async (question : any) => {
 
         const createQuestion = await fetch(`http://127.0.0.1:8000/api/create/question`, {
@@ -37,10 +41,6 @@ export async function fetchCreateQuiz(quiz : any) {
 
         question.answers.map( async (answer : any) => {
 
-            console.log(data2.question.id);
-            console.log(answer);
-            console.log(answer.label);
-            console.log(answer.isCorrect);
 
             const createAnswer = await fetch(`http://127.0.0.1:8000/api/create/answer`, {
                 method: 'POST',
@@ -58,12 +58,11 @@ export async function fetchCreateQuiz(quiz : any) {
             });
 
             const data3 = await createAnswer.json();
-            console.log(data3);
-
         }
         );
 
     });
 
+    return data;
     
 }

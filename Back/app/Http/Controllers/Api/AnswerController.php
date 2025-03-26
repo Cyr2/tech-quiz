@@ -35,7 +35,7 @@ class AnswerController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Réponse créée avec succès',
+            'sucess' => 'Réponse créée avec succès',
             'answer' => [
                 'id' => $answer->answer_id,
                 'label' => $answer->label,
