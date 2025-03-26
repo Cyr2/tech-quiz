@@ -70,11 +70,13 @@
 </template>
 
 <script setup>
+
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { fetchQuizById } from '../../../../utils/fetchQuizById';
-import { fetchQuestions } from '../../../../utils/fetchQuestions';
-import { fetchReponses } from '../../../../utils/fetchReponses';
+import { fetchQuestionsByIdQuiz } from '../../../../utils/fetchQuestionsByIdQuiz';
+import { fetchAnswersByIdQuestion } from '../../../../utils/fectAnswersByIdQuestion';
+
 
 const route = useRoute();
 
@@ -82,7 +84,7 @@ const id = computed(() => route.params.id);
 
 
 const tab = ref({
-    title: 'Ceci est un nom de quiz',
+    title: 'Nouveau quiz',
     questions: [
         {
             label: 'Comment ça va ?',
@@ -143,22 +145,33 @@ const addAnswer = (questionIndex) => {
     if(tab.value.questions[questionIndex].answers.length >= 4) return;
     tab.value.questions[questionIndex].answers.push({ label: '', isCorrect: false });
 };
-
+ 
 const removeAnswer = (questionIndex, answerIndex) => {
     if (tab.value.questions[questionIndex].answers.length > 2) {
         tab.value.questions[questionIndex].answers.splice(answerIndex, 1);
-    }
+    } 
 };
 
 onMounted(async () => {
-    try {
         const quizData = await fetchQuizById(id.value);
-        // if (quizData) {
-        //     tab.value = quizData;
-        // }
-        console.log(quizData);
-    } catch (error) {
-        console.error(error);
-    }
+        if(quizData){
+            tab.value.title = quizData.title;
+        }
+
+        const questionsData = await fetchQuestionsByIdQuiz(id.value);
+        if(questionsData){
+            tab.value.questions = questionsData;
+            console.log(tab.value.questions);
+            
+            for (let i = 0; i < tab.value.questions.length; i++) {
+                console.log(tab.value.questions[i].quiz_id);
+                const answersData = await fetchAnswersByIdQuestion(tab.value.questions[i].quiz_id);
+                if(answersData){
+                    console.log(answersData);
+                    
+                    tab.value.questions[i].answers = answersData;
+                }
+            }
+        }
 });
 </script>

@@ -1,8 +1,8 @@
 import { useAuth } from '../stores/auth.js';
 
-export async function fetchQuizById(id: number) {
+export async function fetchQuestionsByIdQuiz(id: number) {
     const token  = useAuth();
-    const response = await fetch(`http://127.0.0.1:8000/api/quiz/${id}`, {
+    const response = await fetch(`http://127.0.0.1:8000/api/question/quiz/${id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
