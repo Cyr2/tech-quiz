@@ -27,6 +27,13 @@ class QuizController extends Controller
             'date' => 'required',
         ]);
 
+        $test = Quiz::where('title', $request->title)->first();
+        if ($test) {
+            return response()->json([
+                'error' => 'Ce quiz existe déjà',
+            ], 400);
+        }
+
         $quiz = Quiz::create([
             'quiz_id' => Str::uuid(),
             'title' => $request->title,
@@ -34,7 +41,7 @@ class QuizController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Quiz créé avec succès',
+            'sucess' => 'Quiz créé avec succès',
             'quiz' => [
                 'id' => $quiz->quiz_id,
                 'title' => $quiz->title,
