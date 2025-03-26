@@ -22,18 +22,18 @@
 <script setup>
     import { fetchUsers } from "../../../utils/fetchUsers";
 
-    /* defining the variables */
+    /* definir les variables */
     const data = ref(null);
     const min = ref(null);
     const max = ref(null);
     const searched = ref(null);
 
-    /* function to fetch the users */
+    /* function pour fetch les utilisateurs */
     onMounted(async () => {
         data.value = await fetchUsers();
     });
 
-    /* function to update the value of min and verify that max is superior, if not then resets it*/
+    /* function pour mettre à jour les valeurs de min, si min est superieur à max alors max est reinitialiser*/
     const updateMin = () => {
         min.value = document.getElementById("min").value;
         if (max.value && new Date(max.value) < new Date(min.value)) {
@@ -43,32 +43,32 @@
         resetSearch();
     };
 
-    /* function to update the value of max */
+    /* function pour mettre à jour max */
     const updateMax = () => {
         max.value = document.getElementById("max").value;
         resetSearch();
     };
 
-    /* function to set the variables in order to find users having a date of creation in between the two values enterred*/
+    /* function pour définir les variables afin de pouvoir chercher avec la date minimum et maximum*/
     const find = () => {
         updateMin();
         updateMax();
         resetSearch();
     };
 
-    /* function to set the searched variable */
+    /* function pour définir l'utilisateur recherché */
     function search() {
         searched.value = document.getElementById("search").value;
         resetDates();  
     }
 
-    /* function to reset elements corresponding to the search of a username */
+    /* function pour réinitialiser les éléments correspondant au filtre d'utilisateur */
     function resetSearch () {
         searched.value = null;
         document.getElementById("search").value = null;
     };
 
-    /* function to reset elements corresponding to the search of a date */
+    /* function pour réinitialiser les éléments correspondant au filtre de date */
     function resetDates () {
         min.value = null;
         max.value = null;   
