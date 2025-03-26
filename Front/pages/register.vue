@@ -2,8 +2,8 @@
     <div class="flex flex-col justify-center items-center">
         <div class="flex flex-col justify-between items-center bg-bg-primary p-14 rounded-2xl shadow-md gap-4">
             <hgroup class="flex flex-col items-center gap-2">     
-                <h1 class="font-medium text-2xl text-text-primary">Create to Account</h1>
-                <p class="text-sm text-text-secondary">Create a account to continue</p>
+                <h1 class="font-medium text-2xl text-text-primary">Create an Account</h1>
+                <p class="text-sm text-text-secondary">Create an account to continue</p>
             </hgroup>
             <form @submit.prevent="submit" class="flex flex-col justify-between items-center w-full gap-4">
                 <div class="flex flex-col w-full gap-2">
