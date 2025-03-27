@@ -15,6 +15,7 @@
             </div>
             <NuxtLink to="/admin/users/create" class="btn btn-primary bg-support-success-medium rounded-md text-bg-primary px-2 py-1">Create</NuxtLink>
         </div>
+        <!-- composant + props envoyées -->
         <AdminTable
             v-if="data"
             :data="data"
@@ -30,6 +31,7 @@
     import { fetchUsers } from "../../../utils/fetchUsers";
     import { fetchDeleteUser } from "../../../utils/fetchDeleteUser";
 
+    /* définition des variables */
     const data = ref(null);
     const min = ref(null);
     const max = ref(null);
@@ -39,6 +41,7 @@
         data.value = await fetchUsers();
     });
 
+    /* fonction pour mettre à jour les valeurs de la date minimale */
     const updateMin = () => {
         min.value = document.getElementById("min").value;
         if (max.value && new Date(max.value) < new Date(min.value)) {
@@ -48,27 +51,32 @@
         resetSearch();
     };
 
+    /* fonction pour mettre à jour les valeurs de la date maximale */
     const updateMax = () => {
         max.value = document.getElementById("max").value;
         resetSearch();
     };
 
+    /* fonction pour activer le filtre des dates */
     const find = () => {
         updateMin();
         updateMax();
         resetSearch();
     };
 
+    /* fonction pour activer le filtre de la recherche */
     function search() {
         searched.value = document.getElementById("search").value;
         resetDates();  
     }
 
+    /* fonction pour réinitialiser les valeurs de la recherche */
     function resetSearch () {
         searched.value = null;
         document.getElementById("search").value = null;
     };
 
+    /* fonction pour réinitialiser les valeurs des dates */
     function resetDates () {
         min.value = null;
         max.value = null;   
@@ -76,6 +84,7 @@
         document.getElementById("min").value = null;
     };
 
+    /* fonction pour supprimer l'utilisateur demandé */
     const deleteUser = async (userId) => {
         const confirmDelete = confirm("Do you want to delete this user?");
         if (!confirmDelete) return;
