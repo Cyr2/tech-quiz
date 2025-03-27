@@ -15,25 +15,30 @@
             </div>
             <NuxtLink to="/admin/users/create" class="btn btn-primary bg-support-success-medium rounded-md text-bg-primary px-2 py-1">Create</NuxtLink>
         </div>
-        <AdminTable v-if="data" :data="data" :min="min" :max="max" :searched="searched" />
+        <AdminTable
+            v-if="data"
+            :data="data"
+            :min="min"
+            :max="max"
+            :searched="searched"
+            @delete-user="deleteUser"
+        />
     </div>
 </template>
 
 <script setup>
     import { fetchUsers } from "../../../utils/fetchUsers";
+    import { fetchDeleteUser } from "../../../utils/fetchDeleteUser";
 
-    /* definir les variables */
     const data = ref(null);
     const min = ref(null);
     const max = ref(null);
     const searched = ref(null);
 
-    /* fonction pour fetch les utilisateurs */
     onMounted(async () => {
         data.value = await fetchUsers();
     });
 
-    /* fonction pour mettre à jour les valeurs de min, si min est superieur à max alors max est reinitialiser*/
     const updateMin = () => {
         min.value = document.getElementById("min").value;
         if (max.value && new Date(max.value) < new Date(min.value)) {
@@ -43,32 +48,27 @@
         resetSearch();
     };
 
-    /* fonction pour mettre à jour max */
     const updateMax = () => {
         max.value = document.getElementById("max").value;
         resetSearch();
     };
 
-    /* fonction pour définir les variables afin de pouvoir chercher avec la date minimum et maximum*/
     const find = () => {
         updateMin();
         updateMax();
         resetSearch();
     };
 
-    /* fonction pour définir l'utilisateur recherché */
     function search() {
         searched.value = document.getElementById("search").value;
         resetDates();  
     }
 
-    /* fonction pour réinitialiser les éléments correspondant au filtre d'utilisateur */
     function resetSearch () {
         searched.value = null;
         document.getElementById("search").value = null;
     };
 
-    /* fonction pour réinitialiser les éléments correspondant au filtre de date */
     function resetDates () {
         min.value = null;
         max.value = null;   
@@ -76,4 +76,25 @@
         document.getElementById("min").value = null;
     };
 
+    const deleteUser = async (userId) => {
+        const confirmDelete = confirm("Do you want to delete this user?");
+        if (!confirmDelete) return;
+
+        console.log("Deleting user with ID:", userId);
+        
+        try {
+            const response = await fetchDeleteUser(userId);
+            if (response.error) {
+                alert(`Error: ${response.error}`);
+                return;
+            }
+
+            // Retirer l'utilisateur supprimé de la liste
+            data.value = data.value.filter(user => user.user_id !== userId);
+            alert("User deleted successfully.");
+        } catch (error) {
+            console.error("Error deleting user:", error);
+            alert("An error occurred while deleting the user.");
+        }
+    };
 </script>

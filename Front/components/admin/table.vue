@@ -40,11 +40,11 @@
     </thead>
     <tbody>
         <!-- boucle pour afficher toutes les infos de chaque utilisateurs -->
-        <tr v-for="row in filteredData" :key="row.id" class="text-center border-2 border-neutral-light">
+        <tr v-for="row in filteredData" :key="row.user_id" class="text-center border-2 border-neutral-light">
             <td v-for="value in row" :key="value" class="px-4 py-2">{{ value }}</td>
             <td class="px-4 py-2"><NuxtLink to="/admin/users/:id/details" class="btn btn-primary bg-neutral-dark-lightest text-bg-primary cursor-pointer rounded-md  px-2 py-1">Details</NuxtLink></td>
             <td class="px-4 py-2"><NuxtLink to="/admin/users/:id/update" class="btn btn-primary bg-highlight-medium text-bg-primary cursor-pointer rounded-md  px-2 py-1">Update</NuxtLink></td>
-            <td><button class="bg-support-error-medium text-bg-primary cursor-pointer rounded-md  px-2 py-1 mx-2">Delete</button></td>
+            <td><button class="bg-support-error-medium text-bg-primary cursor-pointer rounded-md  px-2 py-1 mx-2" @click="$emit('delete-user', row.user_id)">Delete</button></td>
         </tr>
     </tbody>
   </table>
