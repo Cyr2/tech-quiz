@@ -66,12 +66,14 @@ const quiz = ref({
 });
 
 const addQuestion = () => {
-    quiz.value.questions.push({
-        label: '',
-        answers: [
-            { label: '', isCorrect: false },
-        ]
-    });
+    if (quiz.value.questions.length < 4) {
+        quiz.value.questions.push({
+            label: '',
+            answers: [
+                { label: '', isCorrect: false },
+            ]
+        }); 
+    }
 };
 
 const addAnswer = (questionIndex) => {
