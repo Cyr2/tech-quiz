@@ -1,3 +1,4 @@
+/* fonction pour inscrire un utilisateur */
 export async function fetchRegister(email: string, password: string, user: string) {
         const response = await fetch(`http://127.0.0.1:8000/api/register`, {
             method: 'POST',
