@@ -20,7 +20,7 @@
                     </div>
                     <input type="text" :id="'answer-' + questionIndex + '-' + answerIndex" v-model="answer.label" class="border-2 border-solid border-gray-200 p-2 w-full rounded-md" placeholder="Ecrire ici">
                     <div class="flex gap-4 mb-4">
-                        <input type="radio" :name="'isCorrect-' + questionIndex" v-model="answer.isCorrect" :value="true">
+                        <input type="radio" :name="'isCorrect' + questionIndex" :id="'isCorrect' + questionIndex">
                         <label for="isCorrect">Réponse correcte</label>
                     </div>
                 </div>
@@ -34,9 +34,18 @@
                 class="bg-yellow-400 p-6 rounded-lg h-8 w-96 flex items-center justify-center">
                 Annuler
             </NuxtLink>
+
             <button
+                v-if="quiz.questions.length < 4"
                 @click.prevent="addQuestion"
                 class="bg-yellow-400 p-6 rounded-lg h-8 w-96 flex items-center justify-center">
+                Ajouter une question
+            </button>
+            <button
+                v-else
+                disabled
+                @click.prevent="addQuestion"
+                class="bg-gray-300 text-gray-500 p-6 rounded-lg h-8 w-96 flex items-center justify-center cursor-not-allowed">
                 Ajouter une question
             </button>
         </div>
@@ -44,7 +53,7 @@
         <button 
             type="submit" 
             class="border-2 border-solid border-gray-200 hover:border-yellow-400 py-2 rounded-lg hover:bg-yellow-400"
-            @click.prevent="addQuiz">
+            @click.prevent="saveQuiz">
             Enregistrer
         </button>
     </form>
@@ -66,14 +75,12 @@ const quiz = ref({
 });
 
 const addQuestion = () => {
-    if (quiz.value.questions.length < 4) {
-        quiz.value.questions.push({
-            label: '',
-            answers: [
-                { label: '', isCorrect: false },
-            ]
-        }); 
-    }
+    quiz.value.questions.push({
+        label: '',
+        answers: [
+            { label: '', isCorrect: false },
+        ]
+    }); 
 };
 
 const addAnswer = (questionIndex) => {
@@ -92,19 +99,7 @@ const removeAnswer = (questionIndex, answerIndex) => {
     }
 };
 
-const addQuiz = async () => {
-    const transformedQuiz = {
-        ...quiz.value,
-        questions: quiz.value.questions.map(question => ({
-            ...question,
-            answers: question.answers.map(answer => ({
-                ...answer,
-                isCorrect: answer.isCorrect ? 1 : 0
-            }))
-        }))
-    };
-    console.log(transformedQuiz);
-    const data = await fetchCreateQuiz(transformedQuiz);
-    console.log(data);    
-};
+const saveQuiz = () => {
+    alert('Quiz enregistré');
+}
 </script>
