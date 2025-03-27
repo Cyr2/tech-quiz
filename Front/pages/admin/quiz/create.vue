@@ -3,7 +3,8 @@
         <div class="flex flex-row justify-between">
             <label for="title" class="font-bold text-yellow-500">Titre</label>
         </div>
-        <input type="text" id="title" name="title" class="border-2 border-solid border-gray-200 p-2 rounded-md" placeholder="Ecrire ici">
+        <input type="text" id="title" name="title" class="border-2 border-solid border-gray-200 p-2 rounded-md" placeholder="Ecrire ici" v-model="quiz.title" @input="verifQuiz">
+        <p v-if="errorQuiz">{{ errorQuiz }}</p>
 
         <div v-for="(question, questionIndex) in quiz.questions" :key="questionIndex" class="rounded-lg p-6 shadow-sm flex flex-col gap-8 w-96 border-2 border-solid border-gray-200 w-full">
             <div class="flex flex-col gap-2">
@@ -12,7 +13,8 @@
                     <button v-if="quiz.questions.length > 1" class="text-red-400" @click.prevent="removeQuestion(questionIndex)">Supprimer la question</button>
                     <button v-else class="text-red-200" disabled @click.prevent="removeQuestion(questionIndex)">Supprimer la question</button>
                 </div>
-                <input type="text" :id="'question-' + questionIndex" v-model="question.label" class="border-2 border-solid border-gray-200 p-2 rounded-md" placeholder="Ecrire ici">
+                <input type="text" :id="'question-' + questionIndex" v-model="question.label" class="border-2 border-solid border-gray-200 p-2 rounded-md" placeholder="Ecrire ici" @input="verifQuestion(questionIndex)">
+                <p v-if="errorQuestion">{{ errorQuestion }}</p>
 
                 <hr class="my-4">
 
@@ -22,20 +24,13 @@
                         <button v-if="quiz.questions[questionIndex].answers.length > 2" class="text-red-400" @click.prevent="removeAnswer(questionIndex, answerIndex)">Supprimer la réponse</button>
                         <button v-else disabled class="text-red-200" @click.prevent="removeAnswer(questionIndex, answerIndex)">Supprimer la réponse</button>
                     </div>
-                    <input type="text" :id="'answer-' + questionIndex + '-' + answerIndex" v-model="answer.label" class="border-2 border-solid border-gray-200 p-2 w-full rounded-md" placeholder="Ecrire ici">
-                    <!-- <div class="flex gap-4 mb-4">
-                        <input type="radio" :name="'isCorrect' + questionIndex" :id="'isCorrect' + questionIndex">
-                        <label for="isCorrect">Réponse correcte</label>
-                    </div> -->
+                    <input type="text" :id="'answer-' + questionIndex + '-' + answerIndex" v-model="answer.label" class="border-2 border-solid border-gray-200 p-2 w-full rounded-md" placeholder="Ecrire ici" @input="verifAnswer(questionIndex, answerIndex)">
+                    <p v-if="errorAnswer">{{ errorAnswer }}</p>
                     
                     
-                    <div class="flexitems-center gap-4 mb-4" v-if="answer.isCorrect">
+                    <div class="flex gap-4 mb-4">
                         <label :for="'isCorrect-' + questionIndex + '-' + answerIndex">Réponse correcte</label>
-                        <input type="radio" :name="'isCorrect-' + questionIndex" :id="'isCorrect-' + questionIndex + '-' + answerIndex">
-                    </div>
-                    <div class="flex gap-4 mb-4" v-else>
-                        <label :for="'isCorrect-' + questionIndex + '-' + answerIndex">Réponse correcte</label>
-                        <input type="radio" :name="'isCorrect-' + questionIndex" :id="'isCorrect-' + questionIndex + '-' + answerIndex">
+                        <input type="radio" :name="'isCorrect-' + questionIndex" :id="'isCorrect-' + questionIndex + '-' + answerIndex" v-model="question.correctAnswer" :value="answerIndex">
                     </div>
                 </div>
 
@@ -76,12 +71,16 @@
 <script setup>
 import { fetchCreateQuiz } from '../../../utils/fetchCreateQuiz';
 
+const errorQuiz = ref('');
+const errorQuestion = ref('');
+const errorAnswer = ref('');
+
 const quiz = ref({
     title: '',
     questions: [
         {
             label: '',
-            correctAnswer: null,
+            correctAnswer: null, // Stocke l'index de la réponse correcte
             answers: [
                 { label: '', isCorrect: false },
                 { label: '', isCorrect: false },
@@ -115,6 +114,87 @@ const removeAnswer = (questionIndex, answerIndex) => {
 };
 
 const saveQuiz = () => {
-    alert('Quiz enregistré');
+    if (quiz.value.title.trim() === '') {
+        errorQuiz.value = 'Le titre ne peut pas être vide';
+        return;
+    } else {
+        errorQuiz.value = '';
+    }
+
+    if (quiz.value.questions.length === 0) {
+        errorQuestion.value = 'Il doit y avoir au moins une question';
+        return;
+    } else {
+        errorQuestion.value = '';
+    }
+
+    for (let i = 0; i < quiz.value.questions.length; i++) {
+        const question = quiz.value.questions[i];
+        if (question.label.trim() === '') {
+            errorQuestion.value = `La question ${i + 1} ne peut pas être vide`;
+            return;
+        }
+
+        if (question.answers.length === 0) {
+            errorAnswer.value = `La question ${i + 1} doit avoir au moins une réponse`;
+            return;
+        }
+
+        if (question.correctAnswer === null) {
+            errorAnswer.value = `La question ${i + 1} doit avoir une réponse correcte sélectionnée`;
+            return;
+        }
+
+        for (let j = 0; j < question.answers.length; j++) {
+            if (question.answers[j].label.trim() === '') {
+                errorAnswer.value = `Toutes les réponses de la question ${i + 1} doivent être remplies`;
+                return;
+            }
+        }
+    }
+
+    const preparedQuiz = {
+        title: quiz.value.title,
+        questions: quiz.value.questions.map((question) => {
+            return {
+                label: question.label,
+                answers: question.answers.map((answer, index) => {
+                    return {
+                        label: answer.label,
+                        isCorrect: index === question.correctAnswer ? 1 : 0, // Marque la réponse correcte avec 1 ou 0
+                    };
+                }),
+            };
+        }),
+    };
+
+    console.log(preparedQuiz);
+    fetchCreateQuiz(preparedQuiz);
+    // navigateTo('/');
+    
+};
+
+const verifQuiz = () => {
+    if(quiz.value.title.trim() === '') {
+        errorQuiz.value = 'Le titre ne peut pas être vide';
+        return;
+    }
+    errorQuiz.value = '';
+}
+
+const verifQuestion = (questionIndex) => {
+    if(quiz.value.questions[questionIndex].label.trim() === '') {
+        errorQuestion.value = 'La question ne peut pas être vide';
+        return;
+    }
+    errorQuestion.value = '';
+}
+
+const verifAnswer = (questionIndex, answerIndex) => {
+    if(quiz.value.questions[questionIndex].answers[answerIndex].label.trim() === '') {
+        errorAnswer.value = 'La réponse ne peut pas être vide';
+        return;
+    }
+    errorAnswer.value = '';
 }
 </script>
