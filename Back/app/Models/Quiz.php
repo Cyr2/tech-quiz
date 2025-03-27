@@ -10,4 +10,8 @@ class Quiz extends Model
     protected $table = 'quiz';
     protected $fillable = ['quiz_id','title', 'date'];
     public $timestamps = true;
+    protected $primaryKey = 'quiz_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
 }
+

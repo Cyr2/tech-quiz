@@ -61,6 +61,13 @@ class QuestionController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
+        if(!$request->label || !$request->quiz_id) {
+            return response()->json([
+                'message' => 'Veuilllllllez remplir tous les champs',
+            ]);
+        }
+
         $request->validate([
             'label' => 'required',
             'quiz_id' => 'required',

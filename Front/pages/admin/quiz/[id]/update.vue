@@ -1,9 +1,9 @@
 <template>
-    <form action="/" method="post" class="flex flex-col gap-4 w-3xl">
+    <form action="/" method="post" class="flex flex-col gap-4 w-3xl" @submit.prevent="submit">
         <div class="flex flex-row justify-between">
             <label for="title" class="font-bold text-yellow-500">Titre</label>
         </div>
-        <input type="text" id="title" name="title" class="border-2 border-solid border-solid p-2 rounded-md" :value="tab.title">
+        <input type="text" id="title" name="title" class="border-2 border-solid border-solid p-2 rounded-md" v-model="tab.title">
 
         <div class="bg-white rounded-lg p-6 shadow-sm flex flex-col gap-8 w-96 border-2 border-solid w-full">
             <div class="flex flex-col gap-2">
@@ -22,11 +22,11 @@
                         <input type="text" :id="'answer' + index" :name="'answer' + index" class="border-2 border-solid p-2 w-full" v-model="answer.label">
                         <div class="flex gap-4 mb-4" v-if="answer.isCorrect">
                             <label :for="'isCorrect' + index">Réponse correcte</label>
-                            <input type="radio" name="isCorrect" :id="'isCorrect' + index" checked>
+                            <input type="radio" name="isCorrect" :id="'isCorrect' + index" checked v-model="answer.isCorrect">
                         </div>
                         <div class="flex gap-4 mb-4" v-else>
                             <label :for="'isCorrect' + index">Réponse correcte</label>
-                            <input type="radio" name="isCorrect" :id="'isCorrect' + index">
+                            <input type="radio" name="isCorrect" :id="'isCorrect' + index" v-model="answer.isCorrect">
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@ import { useRoute } from 'vue-router';
 import { fetchQuizById } from '../../../../utils/fetchQuizById';
 import { fetchQuestionsByIdQuiz } from '../../../../utils/fetchQuestionsByIdQuiz';
 import { fetchAnswersByIdQuestion } from '../../../../utils/fectAnswersByIdQuestion';
-
+import { fetchUpdateQuiz } from '../../../../utils/fetchUpdateQuiz';
 
 const route = useRoute();
 
@@ -86,10 +86,11 @@ const tab = ref({
     title: 'Nouveau quiz',
     questions: [
         {
+            questionId : '',
             label: 'question ?',
             answers: [
-                { label: '', isCorrect: false },
-                { label: '', isCorrect: false }
+                { label: '', isCorrect: false, answerId : ''},
+                { label: '', isCorrect: false, answerId : ''},
             ],
         }
     ],
@@ -113,10 +114,11 @@ const prevQuestion = () => {
 
 const addQuestion = () => {
     tab.value.questions.push({
+        questionId : '',
         label: 'Nouvelle question ?',
         answers: [
-            { label: '', isCorrect: false },
-            { label: '', isCorrect: false },
+            { label: '', isCorrect: false, answerId : ''},
+            { label: '', isCorrect: false, answerId : ''},
         ],
     });
     currentQuestion.value = tab.value.questions.length - 1;
@@ -131,7 +133,7 @@ const removeQuestion = (index) => {
 
 const addAnswer = (questionIndex) => {
     if(tab.value.questions[questionIndex].answers.length >= 4) return;
-    tab.value.questions[questionIndex].answers.push({ label: '', isCorrect: false });
+    tab.value.questions[questionIndex].answers.push({ label: '', isCorrect: false, answerId : '' });
 };
  
 const removeAnswer = (questionIndex, answerIndex) => {
@@ -140,10 +142,47 @@ const removeAnswer = (questionIndex, answerIndex) => {
     } 
 };
 
+const submit = async () => {
+    if(tab.value.title === '') return;
+    if(tab.value.questions.length === 0) return;
+    if(tab.value.questions.some(question => question.label === '')) return;
+    if(tab.value.questions.some(question => question.answers.some(answer => answer.label === ''))) return;
+
+    const transformedQuiz = {
+        ...tab.value,
+        questions: tab.value.questions.map(question => ({
+            ...question,
+            answers: question.answers.map((answer, _, answers) => {
+                if (answer.isCorrect) {
+                    // If 'on' is found, set all others to 0 and this one to 1
+                    answers.forEach(a => a.isCorrect = 0);
+                    answer.isCorrect = 1;
+                } else if (!answers.some(a => a.isCorrect)) {
+                    // If no 'on' exists, keep the existing 1
+                    const existingCorrect = answers.find(a => a.isCorrect === 1);
+                    if (existingCorrect) {
+                        existingCorrect.isCorrect = 1;
+                    }
+                }
+                return {
+                    ...answer,
+                    isCorrect: answer.isCorrect ? 1 : 0
+                };
+            })
+        }))
+    };
+
+    const date = new Date();
+    const formattedDate = date.toISOString().split('T')[0];
+    console.log(transformedQuiz);
+    const data = await fetchUpdateQuiz(id.value, transformedQuiz, formattedDate);
+    console.log(data);
+    
+};
+
 onMounted(async () => {
 
         const quizData = await fetchQuizById(id.value);
-        console.log(quizData);
         if(quizData){
             tab.value.title = quizData.title;
         }
@@ -151,17 +190,17 @@ onMounted(async () => {
         const questionsData = await fetchQuestionsByIdQuiz(id.value);
         if(questionsData){
             for (let i = 0; i < questionsData.length; i++) {
-                console.log(questionsData[i]);
-                console.log(tab.value.questions[i]);
                     if(!tab.value.questions[i]){
                         tab.value.questions.push({
+                            questionId : '',
                             label: 'Nouvelle question ?',
                             answers: [
-                                { label: '', isCorrect: false },
-                                { label: '', isCorrect: false },
+                                { label: '', isCorrect: false, answerId : ''},
+                                { label: '', isCorrect: false, answerId : ''},
                             ],
                         });
                     }
+                    tab.value.questions[i].questionId = questionsData[i].question_id;
                     tab.value.questions[i].label = questionsData[i].label;
 
 
@@ -169,10 +208,9 @@ onMounted(async () => {
                 if(answersData){
                     for (let j = 0; j < answersData.length; j++) {
                         if(!tab.value.questions[i].answers[j]){
-                            tab.value.questions[i].answers.push({ label: '', isCorrect: false });
+                            tab.value.questions[i].answers.push({ label: '', isCorrect: false, answerId : '' });
                         }
-                        console.log(answersData[j]);
-                        console.log(answersData[j].is_correct);
+                        tab.value.questions[i].answers[j].answerId = answersData[j].answer_id;
                         tab.value.questions[i].answers[j].label = answersData[j].label;
                         tab.value.questions[i].answers[j].isCorrect = answersData[j].is_correct;
                     }
