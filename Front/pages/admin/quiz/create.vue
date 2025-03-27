@@ -29,13 +29,13 @@
                     </div> -->
                     
                     
-                    <div class="flex gap-4 mb-4" v-if="answer.isCorrect">
+                    <div class="flexitems-center gap-4 mb-4" v-if="answer.isCorrect">
                         <label :for="'isCorrect-' + questionIndex + '-' + answerIndex">Réponse correcte</label>
-                        <input type="radio" :name="'isCorrect-' + questionIndex" :id="'isCorrect-' + questionIndex + '-' + answerIndex" v-model="quiz.questions[questionIndex].correctAnswer" checked>
+                        <input type="radio" :name="'isCorrect-' + questionIndex" :id="'isCorrect-' + questionIndex + '-' + answerIndex">
                     </div>
                     <div class="flex gap-4 mb-4" v-else>
                         <label :for="'isCorrect-' + questionIndex + '-' + answerIndex">Réponse correcte</label>
-                        <input type="radio" :name="'isCorrect-' + questionIndex" :id="'isCorrect-' + questionIndex + '-' + answerIndex" v-model="quiz.questions[questionIndex].correctAnswer">
+                        <input type="radio" :name="'isCorrect-' + questionIndex" :id="'isCorrect-' + questionIndex + '-' + answerIndex">
                     </div>
                 </div>
 
@@ -83,7 +83,7 @@ const quiz = ref({
             label: '',
             correctAnswer: null,
             answers: [
-                { label: '', isCorrect: "on" },
+                { label: '', isCorrect: false },
                 { label: '', isCorrect: false },
             ]
         }
@@ -94,7 +94,7 @@ const addQuestion = () => {
     quiz.value.questions.push({
         label: '',
         answers: [
-            { label: '', isCorrect: "on" },
+            { label: '', isCorrect: false },
             { label: '', isCorrect: false },
         ]
     }); 
