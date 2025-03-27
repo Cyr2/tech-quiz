@@ -170,7 +170,7 @@ const saveQuiz = () => {
 
     console.log(preparedQuiz);
     fetchCreateQuiz(preparedQuiz);
-    // navigateTo('/');
+    navigateTo('/');
     
 };
 
