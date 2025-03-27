@@ -5,57 +5,27 @@
         </div>
         <input type="text" id="title" name="title" class="border-2 border-solid border-gray-200 p-2 rounded-md" placeholder="Ecrire ici">
 
-        <div 
-            v-for="(question, questionIndex) in quiz.questions" 
-            :key="questionIndex" 
-            class="rounded-lg p-6 shadow-sm flex flex-col gap-8 w-96 border-2 border-solid border-gray-200 w-full"
-        >
+        <div v-for="(question, questionIndex) in quiz.questions" :key="questionIndex" class="rounded-lg p-6 shadow-sm flex flex-col gap-8 w-96 border-2 border-solid border-gray-200 w-full">
             <div class="flex flex-col gap-2">
                 <div class="flex flex-row justify-between">
                     <label :for="'question-' + questionIndex" class="font-bold">Question {{ questionIndex + 1 }}</label>
                     <button class="text-red-400" @click.prevent="removeQuestion(questionIndex)">Supprimer la question</button>
                 </div>
-                <input 
-                    type="text" 
-                    :id="'question-' + questionIndex" 
-                    v-model="question.label" 
-                    class="border-2 border-solid border-gray-200 p-2 rounded-md" 
-                    placeholder="Ecrire ici"
-                >
+                <input type="text" :id="'question-' + questionIndex" v-model="question.label" class="border-2 border-solid border-gray-200 p-2 rounded-md" placeholder="Ecrire ici">
 
-                <div 
-                    v-for="(answer, answerIndex) in question.answers" 
-                    :key="answerIndex" 
-                    class="flex flex-col items-start gap-2"
-                >
+                <div v-for="(answer, answerIndex) in question.answers" :key="answerIndex" class="flex flex-col items-start gap-2">
                     <div class="flex flex-row justify-between w-full">
                         <label :for="'answer-' + questionIndex + '-' + answerIndex">Réponse {{ answerIndex + 1 }}</label>
                         <button class="text-red-400" @click.prevent="removeAnswer(questionIndex, answerIndex)">Supprimer la réponse</button>
                     </div>
-                    <input 
-                        type="text" 
-                        :id="'answer-' + questionIndex + '-' + answerIndex" 
-                        v-model="answer.label" 
-                        class="border-2 border-solid border-gray-200 p-2 w-full rounded-md" 
-                        placeholder="Ecrire ici"
-                    >
+                    <input type="text" :id="'answer-' + questionIndex + '-' + answerIndex" v-model="answer.label" class="border-2 border-solid border-gray-200 p-2 w-full rounded-md" placeholder="Ecrire ici">
                     <div class="flex gap-4 mb-4">
-                        <input 
-                            type="radio" 
-                            :name="'isCorrect-' + questionIndex" 
-                            v-model="answer.isCorrect" 
-                            :value="true"
-                        >
+                        <input type="radio" :name="'isCorrect-' + questionIndex" v-model="answer.isCorrect" :value="true">
                         <label for="isCorrect">Réponse correcte</label>
                     </div>
                 </div>
 
-                <button 
-                    class="flex text-gray-400 mt-2" 
-                    @click.prevent="addAnswer(questionIndex)"
-                >
-                    + Ajouter une réponse
-                </button>
+                <button class="flex text-gray-400 mt-2" @click.prevent="addAnswer(questionIndex)">+ Ajouter une réponse</button>
             </div>
         </div>
 
