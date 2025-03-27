@@ -1,6 +1,8 @@
 <template>
   <div class="h-full w-2/3 flex flex-col gap-16 justify-between">
-    <genericDefaultTable :data="history" />
+
+    <genericDefaultTable v-if="!error" :data="history" />
+    <p v-else>{{ error }}</p>
   </div>
 </template>
 
@@ -42,6 +44,11 @@ watch(user_id, async () => {
   try {
     const response = await fetchHistoryByUser(user_id.value);
     
+    if(response.length === 0) {
+      error.value = 'Aucun historique trouvé.';
+      return;
+    }
+
     history.value = await filterData(response);
   } catch (err) {
     console.error('Error fetching data:', err);

@@ -8,8 +8,8 @@
         class="px-3 py-2 border rounded-md w-full max-w-md focus:outline-none focus:ring-2 focus:ring-highlight-medium"
       />
     </div>
-    <div class="overflow-x-auto border-2 border-black bg-bg-primary rounded-md">
-      <table v-if="filteredData && filteredData.length" class="w-full border-collapse">
+    <div v-if="filteredData && filteredData.length" class="overflow-x-auto border-2 border-black bg-bg-primary rounded-md">
+      <table class="w-full border-collapse">
         <thead class="bg-bg-primary border-b-2 border-black">
           <tr>
             <th 
@@ -41,15 +41,15 @@
           </tr>
         </tbody>
       </table>
-      <div v-else class="text-center py-4 text-text-secondary">
-        Aucune donnée disponible
-      </div>
+    </div>
+    <div v-else class="w-full flex flex-col gap-2">
+      <USkeleton v-for="i in 3" :key="i" class="h-10 w-full" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 
 const props = defineProps({
   data: {
@@ -61,6 +61,8 @@ const props = defineProps({
     default: false
   }
 })
+
+
 
 const searchTerm = ref('')
 const sortKey = ref(null)
