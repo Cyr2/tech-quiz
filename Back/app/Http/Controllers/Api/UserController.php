@@ -76,6 +76,7 @@ class UserController
     {
         $request->validate([
             'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required',
             'role_id' => 'required',
         ]);
@@ -84,6 +85,7 @@ class UserController
 
         $user->update([
             'email' => $request->email,
+            'username' => $request->username,
             'password' => Hash::make($request->password),
             'role_id' => $request->role_id,
         ]);
@@ -93,6 +95,7 @@ class UserController
             'user' => [
                 'id' => $user->id,
                 'email' => $user->email,
+                'username' => $user->username,
                 'role_id' => $user->role_id,
             ],
         ]);

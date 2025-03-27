@@ -53,23 +53,25 @@ definePageMeta({
 /* définition des variables */
 const route = useRoute();
 const id = computed(() => route.params.id);
-const user = useAuth();
 
+
+const user = ref(null);
 const update = ref(null);
-const email = ref(user.email);
-const username = ref(user.username);
-const password = ref(user.password);
+const email = ref(null);
+const username = ref(null);
+const password = ref(null);
+const role = ref(null);
 const errorMessage = ref('');
 const errorPassword = ref('');
 const submitted = ref(false);
-const role = ref(user.role);
+
 
 /* fonction executée lors du chargement de la page */
 onMounted(async () => {
-    const user = await fetchUser(id);
-    email.value = user.email;
-    username.value = user.username;
-    role.value = user.role;
+    user.value = await fetchUser(id.value);
+    email.value = user.value.email;
+    username.value = user.value.username;
+    role.value = user.value.role_id;
 });
 
 
@@ -137,7 +139,7 @@ const submit = async () => {
     }
 
     submitted.value = true;
-    //update.value = await fetchUpdateUser(id.value,);
+    update.value = await fetchUpdateUser(id.value, email.value, username.value, password.value, role.value);
     if (update.value.error) {
         submitted.value = false;
         errorMessage.value = update.value.error;
@@ -147,7 +149,7 @@ const submit = async () => {
     }
 
 
-    //navigateTo('/admin/users');
+    navigateTo('/admin/users');
 
 };
 
