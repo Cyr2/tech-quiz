@@ -1,26 +1,30 @@
 <template>
-    <form action="/" method="post" class="flex flex-col gap-4 w-3xl" @submit.prevent="submit">
+    <form action="/" method="post" class="bg-bg-primary p-6 rounded-md shadow-lg flex flex-col gap-4 w-3xl" @submit.prevent="submit">
         <div class="flex flex-row justify-between">
             <label for="title" class="font-bold text-yellow-500">Titre</label>
         </div>
-        <input type="text" id="title" name="title" class="border-2 border-solid p-2 rounded-md" v-model="tab.title">
+        <input type="text" id="title" name="title" class="border-2 border-solid border-bg-secondary p-2 rounded-md" v-model="tab.title">
 
-        <div v-for="(question, questionIndex) in tab.questions" :key="questionIndex" class="bg-white rounded-lg p-6 shadow-sm flex flex-col gap-8 w-96 border-2 border-solid w-full">
+        <div v-for="(question, questionIndex) in tab.questions" :key="questionIndex" class="rounded-lg p-6 shadow-sm flex flex-col gap-8 w-96 border-2 border-solid border-bg-secondary w-full">
             <div class="flex flex-col gap-2">
                 <div class="flex flex-row justify-between">
                     <label :for="'question-' + questionIndex" class="font-bold">Question {{ questionIndex + 1 }}</label>
                     <button v-if="tab.questions.length > 1" class="text-red-400" @click.prevent="removeQuestion(questionIndex)">Supprimer la question</button>
+                    <button v-else disabled class="text-red-200" @click.prevent="removeQuestion(questionIndex)">Supprimer la question</button>
                 </div>
-                <input type="text" :id="'question-' + questionIndex" v-model="question.label" class="border-2 border-solid p-2 rounded-md" placeholder="Ecrire ici">
+                <input type="text" :id="'question-' + questionIndex" v-model="question.label" class="border-2 border-solid border-bg-secondary p-2 rounded-md" placeholder="Ecrire ici">
+
+                <hr class="my-4">
 
                 <div v-for="(answer, answerIndex) in question.answers" :key="answerIndex" class="flex flex-col gap-2">
                     <div class="flex flex-row justify-between">
                         <label :for="'answer-' + questionIndex + '-' + answerIndex">Réponse {{ answerIndex + 1 }}</label>
                         <button v-if="question.answers.length > 2" class="text-red-400" @click.prevent="removeAnswer(questionIndex, answerIndex)">Supprimer la réponse</button>
+                        <button v-else disabled class="text-red-200" @click.prevent="removeAnswer(questionIndex, answerIndex)">Supprimer la réponse</button>
                     </div>
-                    <input type="text" :id="'answer-' + questionIndex + '-' + answerIndex" v-model="answer.label" class="border-2 border-solid p-2 w-full rounded-md" placeholder="Ecrire ici">
+                    <input type="text" :id="'answer-' + questionIndex + '-' + answerIndex" v-model="answer.label" class="border-2 border-solid border-bg-secondary p-2 w-full rounded-md" placeholder="Ecrire ici">
                     
-                    <div class="flex gap-4 mb-4">
+                    <div class="flex items-center gap-4 mb-4">
                         <label :for="'isCorrect-' + questionIndex + '-' + answerIndex">Réponse correcte</label>
                         <input type="radio" :name="'isCorrect-' + questionIndex" :id="'isCorrect-' + questionIndex + '-' + answerIndex" v-model="question.correctAnswer" :value="answerIndex">
                     </div>
@@ -42,11 +46,19 @@
                 class="bg-yellow-400 p-6 rounded-lg h-8 w-96 flex items-center justify-center">
                 Ajouter une question
             </button>
+
+            <button
+                v-else
+                disabled
+                @click.prevent="addQuestion"
+                class="bg-gray-200 text-gray-400 p-6 rounded-lg h-8 w-96 flex items-center justify-center">
+                Ajouter une question
+            </button>
         </div>
 
         <button 
             type="submit" 
-            class="bg-white border-2 border-solid border-yellow-400 py-2 rounded-lg text-yellow-500 hover:bg-yellow-400 hover:text-black"
+            class="border-2 border-solid border-gray-200 hover:border-yellow-400 py-2 rounded-lg hover:bg-yellow-400"
             @click.prevent="submit">
             Enregistrer
         </button>
