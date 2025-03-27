@@ -34,7 +34,7 @@ class QuestionController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Question créée avec succès',
+            'sucess' => 'Question créée avec succès',
             'question' => [
                 'id' => $question->question_id,
                 'label' => $question->label,

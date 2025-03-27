@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Answer;
+use Illuminate\Support\Str;
 
 class AnswerController extends Controller
 {
@@ -28,14 +29,13 @@ class AnswerController extends Controller
         ]);
 
         $answer = Answer::create([
-            'answer_id' => Str::uuid(),
             'label' => $request->label,
             'is_correct' => $request->is_correct,
             'question_id' => $request->question_id,
         ]);
 
         return response()->json([
-            'message' => 'Réponse créée avec succès',
+            'sucess' => 'Réponse créée avec succès',
             'answer' => [
                 'id' => $answer->answer_id,
                 'label' => $answer->label,

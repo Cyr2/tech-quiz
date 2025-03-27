@@ -23,21 +23,28 @@ class QuizController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'title' => 'required',
             'date' => 'required',
         ]);
 
+        $test = Quiz::where('title', $request->title)->first();
+        if ($test) {
+            return response()->json([
+                'error' => 'Ce quiz existe déjà',
+            ], 400);
+        }
+
         $quiz = Quiz::create([
             'quiz_id' => Str::uuid(),
-            'name' => $request->name,
+            'title' => $request->title,
             'date' => $request->date,
         ]);
 
         return response()->json([
-            'message' => 'Quiz créé avec succès',
+            'sucess' => 'Quiz créé avec succès',
             'quiz' => [
                 'id' => $quiz->quiz_id,
-                'name' => $quiz->name,
+                'title' => $quiz->title,
                 'date' => $quiz->date,
             ],
         ]);
