@@ -2,7 +2,9 @@ import { useAuth } from "../stores/auth.js";
 
 /* fonction permettant de recupérer un quiz */
 export async function fetchQuiz(quiz_id: string) {
+export async function fetchQuiz() {
     const token  = useAuth();
+    const response = await fetch(`http://127.0.0.1:8000/api/quiz`, {
     const response = await fetch(`http://127.0.0.1:8000/api/quiz`, {
         method: 'GET',
         headers: {
@@ -15,4 +17,6 @@ export async function fetchQuiz(quiz_id: string) {
         
     return data;
 }
+
+
 
