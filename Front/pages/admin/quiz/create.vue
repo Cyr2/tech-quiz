@@ -1,14 +1,14 @@
 <template>
-    <form action="/" method="post" class="bg-white p-6 rounded-lg shadow-lg flex flex-col gap-4 w-2/4">
+    <form action="/" method="post" class="bg-bg-primary p-6 rounded-lg shadow-lg flex flex-col gap-4 w-2/4">
         <div class="flex flex-row justify-between">
             <label for="title" class="font-bold text-yellow-500">Titre</label>
         </div>
-        <input type="text" id="title" name="title" class="border-2 border-solid border-solid p-2 rounded-md" placeholder="Ecrire ici">
+        <input type="text" id="title" name="title" class="border-2 border-solid border-gray-200 p-2 rounded-md" placeholder="Ecrire ici">
 
         <div 
             v-for="(question, questionIndex) in quiz.questions" 
             :key="questionIndex" 
-            class="bg-white rounded-lg p-6 shadow-sm flex flex-col gap-8 w-96 border-2 border-solid w-full"
+            class="rounded-lg p-6 shadow-sm flex flex-col gap-8 w-96 border-2 border-solid border-gray-200 w-full"
         >
             <div class="flex flex-col gap-2">
                 <div class="flex flex-row justify-between">
@@ -19,7 +19,7 @@
                     type="text" 
                     :id="'question-' + questionIndex" 
                     v-model="question.label" 
-                    class="border-2 border-solid p-2" 
+                    class="border-2 border-solid border-gray-200 p-2 rounded-md" 
                     placeholder="Ecrire ici"
                 >
 
@@ -36,7 +36,7 @@
                         type="text" 
                         :id="'answer-' + questionIndex + '-' + answerIndex" 
                         v-model="answer.label" 
-                        class="border-2 border-solid p-2 w-full" 
+                        class="border-2 border-solid border-gray-200 p-2 w-full rounded-md" 
                         placeholder="Ecrire ici"
                     >
                     <div class="flex gap-4 mb-4">
@@ -73,7 +73,7 @@
 
         <button 
             type="submit" 
-            class="bg-white border-2 border-solid hover:border-yellow-400 py-2 rounded-lg hover:bg-yellow-400 hover:text-black"
+            class="border-2 border-solid border-gray-200 hover:border-yellow-400 py-2 rounded-lg hover:bg-yellow-400"
             @click.prevent="addQuiz">
             Enregistrer
         </button>
