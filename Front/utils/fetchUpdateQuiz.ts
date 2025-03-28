@@ -29,7 +29,6 @@ export async function fetchUpdateQuiz(id: string ,quiz :any, date: string) {
                 quiz_id: data.quiz.id,
                 label: question.label,
             })
-    
         });
     
         const data2 = await createQuestion.json();

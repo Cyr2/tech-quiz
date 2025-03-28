@@ -64,7 +64,7 @@ class QuestionController extends Controller
 
         if(!$request->label || !$request->quiz_id) {
             return response()->json([
-                'message' => 'Veuilllllllez remplir tous les champs',
+                'message' => 'Veuillez remplir tous les champs',
             ]);
         }
 
@@ -73,11 +73,21 @@ class QuestionController extends Controller
             'quiz_id' => 'required',
         ]);
 
-        $question = Question::findOrFail($id);
+        $question = Question::where('question_id', $id)->first();
+
+        if (!$question) {
+            $question = Question::create([
+                'question_id' => $id,	
+                'label' => $request->label,
+                'quiz_id' => $request->quiz_id,
+            ]);
+        }
+        else{
         $question->update([
             'label' => $request->label,
             'quiz_id' => $request->quiz_id,
         ]);
+        }
 
         return response()->json([
             'message' => 'Question modifiée avec succès',
