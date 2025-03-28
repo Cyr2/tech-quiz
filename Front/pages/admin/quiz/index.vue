@@ -48,11 +48,7 @@ const deleteQuiz = async (id) => {
 
   try {
     const response = await fetchDeleteQuiz(id);
-    if (response.status === 200) {
       quiz.value = quiz.value.filter(item => item.id !== id);
-    } else {
-      error.value = 'Erreur lors de la suppression du quiz.';
-    }
   } catch (err) {
     console.error('Error deleting quiz:', err);
     error.value = err.message || 'An unexpected error occurred.';
