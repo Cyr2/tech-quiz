@@ -8,7 +8,6 @@
 
 <script setup>
 import { onMounted } from 'vue';
-import { useAuth } from '~/stores/auth';
 import { fetchHistoryByUser } from '../../../../utils/fetchHistoryByUser';
 import { fetchQuiz } from '../../../../utils/fetchQuiz';
 

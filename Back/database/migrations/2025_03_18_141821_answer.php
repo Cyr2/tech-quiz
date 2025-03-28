@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('label');
             $table->boolean('is_correct');
             $table->string('question_id');
-            $table->foreign('question_id')->references('question_id')->on('question');
+            $table->foreign('question_id')->references('question_id')->on('question')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->string('history_id')->primary();
             $table->date('date');
             $table->string('score');
-            $table->string('user_id')->references('user_id')->on('user');
+            $table->string('user_id')->references('user_id')->on('user')->onDelete('cascade');
             $table->string('quiz_id');
-            $table->foreign('quiz_id')->references('quiz_id')->on('quiz');
+            $table->foreign('quiz_id')->references('quiz_id')->on('quiz')->onDelete('cascade');
             $table->timestamps();
         });
     }
