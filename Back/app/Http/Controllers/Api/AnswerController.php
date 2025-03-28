@@ -69,12 +69,23 @@ class AnswerController extends Controller
             'question_id' => 'required',
         ]);
 
-        $answer = Answer::findOrFail($id);
+        $answer = Answer::where('answer_id', $id)->first();
+
+        if(!$answer) {
+            $answer = Answer::create([
+                'label' => $request->label,
+                'is_correct' => $request->is_correct,
+                'question_id' => $request->question_id,
+            ]);
+        }
+        else{
+
         $answer->update([
             'label' => $request->label,
             'is_correct' => $request->is_correct,
             'question_id' => $request->question_id,
         ]);
+        }
 
         return response()->json([
             'message' => 'Réponse modifiée avec succès',
