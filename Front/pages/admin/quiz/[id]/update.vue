@@ -220,7 +220,7 @@ const submit = async () => {
     const date = new Date().toISOString().split('T')[0];
     console.log(transformedQuiz);
     const response = await fetchUpdateQuiz(id.value, transformedQuiz, date);
-    console.log(response);
+    navigateTo('/admin/quiz');
 };
 
 onMounted(async () => {

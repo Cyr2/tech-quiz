@@ -9,7 +9,7 @@
           <NuxtLink to="/history">History</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/admin">Admin</NuxtLink>
+          <NuxtLink to="/admin/users">Admin</NuxtLink>
           <!-- TODO: Faire la logique de vérif -->
         </li>
         <li>
