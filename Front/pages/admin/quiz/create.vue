@@ -39,17 +39,17 @@
         </div>
 
         <div class="flex flex-row gap-8 justify-between mt-6">
-            <NuxtLink to="/"
-                class="bg-yellow-400 p-6 rounded-lg h-8 w-96 flex items-center justify-center">
+            <ButtonDefaultLink to="/admin/quiz">
                 Annuler
-            </NuxtLink>
+            </ButtonDefaultLink>
 
-            <button
+            <DefaultForm
                 v-if="quiz.questions.length < 10"
-                @click.prevent="addQuestion"
-                class="bg-yellow-400 p-6 rounded-lg h-8 w-96 flex items-center justify-center">
+                :click="addQuestion"
+                :prevent=true
+                >
                 Ajouter une question
-            </button>
+            </DefaultForm>
             <button
                 v-else
                 disabled
@@ -69,6 +69,7 @@
 </template>
 
 <script setup>
+import DefaultForm from '~/components/button/defaultForm.vue';
 import { fetchCreateQuiz } from '../../../utils/fetchCreateQuiz';
 
 const errorQuiz = ref('');

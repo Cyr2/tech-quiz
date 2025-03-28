@@ -89,7 +89,12 @@ class QuizController extends Controller
      */
     public function destroy(string $id)
     {
-        $quiz = Quiz::findOrFail($id);
+        $quiz = Quiz::where('quiz_id', $id)->first();
+        if (!$quiz) {
+            return response()->json([
+                'error' => 'Quiz non trouvé',
+            ], 404);
+        }
         $quiz->forceDelete();
 
         return response()->json([

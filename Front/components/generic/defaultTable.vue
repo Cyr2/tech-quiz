@@ -13,7 +13,7 @@
         <thead class="bg-bg-primary border-b-2 border-black">
           <tr>
             <th 
-              v-for="(key) in tableHeaders" 
+              v-for="key in tableHeaders" 
               :key="key" 
               @click="updateSort(key)"
               class="px-4 py-3 text-left text-xs font-medium text-text-primary uppercase tracking-wider cursor-pointer"
@@ -23,6 +23,7 @@
                 {{ sortOrder === 'asc' ? '▲' : '▼' }}
               </span>
             </th>
+            <th v-if="action.length" class="px-4 py-3 text-xs font-medium text-text-primary uppercase tracking-wider">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -37,6 +38,29 @@
               class="px-4 py-3 text-sm"
             >
               {{ formatCellValue(item[key]) }}
+            </td>
+            <td class="px-4 py-3 text-sm flex gap-2">
+                <template v-for="currAction in action">
+                  <ButtonDefaultForm 
+                    v-if="currAction.click"
+                    :key="currAction.name"
+                    :click="() => currAction.click(item.id)"
+                    :color="currAction.colors"
+                    :disabled="currAction.disabled"
+                  >
+                    {{ currAction.name }}
+                  </ButtonDefaultForm>
+                  <ButtonDefaultLink 
+                    v-else
+                    :key="currAction.name + 'link'"
+                    :to="currAction.redirection.replace(':id', item.id)"
+                    :color="currAction.colors"
+                    :disabled="currAction.disabled"
+                  >
+                    {{ currAction.name }}
+                  </ButtonDefaultLink>
+              </template>
+
             </td>
           </tr>
         </tbody>
@@ -59,10 +83,12 @@ const props = defineProps({
   search: {
     type: Boolean,
     default: false
+  },
+  action: {
+    type: Array,
+    default: () => ([])
   }
 })
-
-
 
 const searchTerm = ref('')
 const sortKey = ref(null)
