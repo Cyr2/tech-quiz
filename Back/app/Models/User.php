@@ -18,7 +18,7 @@ class User extends Authenticatable
     protected $keyType = 'string';
 
     /**
-     * The attributes that are mass assignable.
+     * Les attributs qui sont affichés pour les tableaux.
      *
      * @var list<string>
      */
@@ -32,7 +32,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Les attributs qui sont cachés pour les tableaux.
      *
      * @var list<string>
      */
@@ -42,7 +42,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * Accesseur pour les attributs cachés des tableaux.
      *
      * @return array<string, string>
      */
