@@ -10,7 +10,7 @@
           <ButtonDefaultLink to="/admin/users" class="!w-full">Users</ButtonDefaultLink>
         </li>
       </ul>
-      <main class="flex-1 flex flex-col items-start py-8 px-8 max-w-full overflow-auto ">
+      <main class="flex-1 flex flex-col py-8 px-8 max-w-full overflow-auto">
         <slot />
       </main>
     </div>
