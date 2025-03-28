@@ -10,7 +10,7 @@ use Carbon\Carbon;
 class HistorySeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Lancer les seeders de l'historique'.
      */
     public function run(): void
     {

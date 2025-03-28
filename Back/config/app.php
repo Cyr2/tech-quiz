@@ -4,12 +4,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Name
+    | NOM DE L'APPLICATION
     |--------------------------------------------------------------------------
     |
-    | This value is the name of your application, which will be used when the
-    | framework needs to place the application's name in a notification or
-    | other UI elements where an application name needs to be displayed.
+    | Ce nom est utilisé par l'application pour identifier l'application
     |
     */
 
@@ -17,12 +15,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Environment
+    | ENVIRONNEMENT DE L'APPLICATION
     |--------------------------------------------------------------------------
     |
-    | This value determines the "environment" your application is currently
-    | running in. This may determine how you prefer to configure various
-    | services the application utilizes. Set this in your ".env" file.
+    | Cette valeur détermine l'environnement dans lequel 
+    | l'application est actuellement en cours d'exécution.
     |
     */
 
@@ -30,12 +27,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Debug Mode
+    | MODE DE DEBBUG DE L'APPLICATION
     |--------------------------------------------------------------------------
     |
-    | When your application is in debug mode, detailed error messages with
-    | stack traces will be shown on every error that occurs within your
-    | application. If disabled, a simple generic error page is shown.
+    | Lorsque votre application est en mode débogage,
+    | des messages d'erreur détaillés avec des traces de pile s'affichent
+    | pour chaque erreur survenue dans votre application. 
+    | Si cette option est désactivée, une simple page d'erreur générique s'affiche.
     |
     */
 
@@ -43,12 +41,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application URL
+    | URL DE L'APPLICATION
     |--------------------------------------------------------------------------
     |
-    | This URL is used by the console to properly generate URLs when using
-    | the Artisan command line tool. You should set this to the root of
-    | the application so that it's available within Artisan commands.
+    | Cette URL est utilisée par la console pour générer correctement 
+    | les URL lors de l'utilisation de l'outil de ligne de commande Artisan. 
+    | Vous devez la définir à la racine de l'application 
+    | afin qu'elle soit disponible dans les commandes Artisan.
     |
     */
 
@@ -56,12 +55,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Timezone
+    | FUSEAU HORAIRE DE L'APPLICATION
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the default timezone for your application, which
-    | will be used by the PHP date and date-time functions. The timezone
-    | is set to "UTC" by default as it is suitable for most use cases.
+    | Vous pouvez spécifier ici le fuseau horaire par défaut de votre application, 
+    | qui sera utilisé par les fonctions PHP date et date-heure. 
+    | Le fuseau horaire est défini par défaut sur « UTC », 
+    | car il convient à la plupart des cas d'utilisation.
     |
     */
 
@@ -86,12 +86,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Encryption Key
+    | CLÉ DE CHIFFREMENT DE L'APPLICATION
     |--------------------------------------------------------------------------
     |
-    | This key is utilized by Laravel's encryption services and should be set
-    | to a random, 32 character string to ensure that all encrypted values
-    | are secure. You should do this prior to deploying the application.
+    | Cette clé est utilisée par les services de chiffrement de Laravel 
+    | et doit être définie sur une chaîne aléatoire de 32 caractères 
+    | pour garantir la sécurité de toutes les valeurs chiffrées. 
+    | Cette opération doit être effectuée avant le déploiement de l'application.
     |
     */
 
@@ -107,14 +108,14 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Maintenance Mode Driver
+    | PILOTE DU MODE MAINTENANCE
     |--------------------------------------------------------------------------
     |
-    | These configuration options determine the driver used to determine and
-    | manage Laravel's "maintenance mode" status. The "cache" driver will
-    | allow maintenance mode to be controlled across multiple machines.
+    | Ces options de configuration déterminent le pilote utilisé 
+    | pour déterminer et gérer l'état du « mode maintenance » de Laravel. 
+    | Le pilote « cache » permettra de contrôler le mode maintenance sur plusieurs machines.
     |
-    | Supported drivers: "file", "cache"
+    | Drivers supportés: "file", "cache"
     |
     */
 

@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class QuizSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Lancer les seeders pour les quiz.
      */
     public function run(): void
     {

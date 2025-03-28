@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class AnswerSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Lancer les seeders pour les réponses des quiz
      */
     public function run(): void
     {
@@ -320,7 +320,7 @@ class AnswerSeeder extends Seeder
             ]
         ];
 
-        // Process and insert answers for each quiz
+        // Process et réponses des quiz
         $quizzes = [
             'JavaScript Quiz' => $jsQuizAnswers,
             'HTML Quiz' => $htmlQuizAnswers,
@@ -344,7 +344,7 @@ class AnswerSeeder extends Seeder
                 $questionIndex = array_search($question->label, $quizQuestionsMap[$quizTitle]);
 
                 if ($questionIndex === false) {
-                    continue; // Skip if the question is not found
+                    continue; // Passer si la question n'est pas trouvée
                 }
 
                 $answers = array_map(function($answer) use ($question) {
