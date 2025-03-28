@@ -63,22 +63,38 @@ class QuizController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
+        if(!$request->title || !$request->date) {
+            return response()->json([
+                'error' => 'Veuillez remplir tous les champs',
+            ]);
+        }
+
         $request->validate([
-            'name' => 'required',
+            'title' => 'required',
             'date' => 'required',
         ]);
 
+        
+
         $quiz = Quiz::findOrFail($id);
+        
+        if(!$quiz) {
+            return response()->json([
+                'error' => 'Quiz non trouvé',
+            ]);
+        }
+
         $quiz->update([
-            'name' => $request->name,
+            'title' => $request->title,
             'date' => $request->date,
         ]);
 
         return response()->json([
-            'message' => 'Quiz modifié avec succès',
+            'success' => 'Quiz modifié avec succès',
             'quiz' => [
                 'id' => $quiz->quiz_id,
-                'name' => $quiz->name,
+                'title' => $quiz->title,
                 'date' => $quiz->date,
             ],
         ]);

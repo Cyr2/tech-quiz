@@ -61,16 +61,33 @@ class QuestionController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
+        if(!$request->label || !$request->quiz_id) {
+            return response()->json([
+                'message' => 'Veuillez remplir tous les champs',
+            ]);
+        }
+
         $request->validate([
             'label' => 'required',
             'quiz_id' => 'required',
         ]);
 
-        $question = Question::findOrFail($id);
+        $question = Question::where('question_id', $id)->first();
+
+        if (!$question) {
+            $question = Question::create([
+                'question_id' => $id,	
+                'label' => $request->label,
+                'quiz_id' => $request->quiz_id,
+            ]);
+        }
+        else{
         $question->update([
             'label' => $request->label,
             'quiz_id' => $request->quiz_id,
         ]);
+        }
 
         return response()->json([
             'message' => 'Question modifiée avec succès',
@@ -87,8 +104,10 @@ class QuestionController extends Controller
      */
     public function destroy(string $id)
     {
-        Question::findOrFail($id)->forceDelete();
-
+        $question = Question::where('question_id', $id)->first();
+        
+        $question->forceDelete();
+        
         return response()->json([
             'message' => 'Question supprimée avec succès',
         ]);

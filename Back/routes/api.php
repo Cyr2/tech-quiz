@@ -26,20 +26,20 @@ Route::middleware('\App\Http\Middleware\EnsureAuthenticated::class')->group(func
     Route::get('/quiz', [QuizController::class, 'index']);
     Route::get('/quiz/{id}', [QuizController::class, 'show']);
     Route::post('/create/quiz', [QuizController::class, 'store']);
-    Route::put('/update/quiz/{id}', [QuizController::class, 'update']);
+    Route::post('/update/quiz/{id}', [QuizController::class, 'update']);
     Route::delete('/delete/quiz/{id}', [QuizController::class, 'destroy']);
 
     Route::get('/questions', [QuestionController::class, 'index']);
     Route::get('/question/{id}', [QuestionController::class, 'show']);
     Route::post('/create/question', [QuestionController::class, 'store']);
-    Route::put('/update/question/{id}', [QuestionController::class, 'update']);
+    Route::post('/update/question/{id}', [QuestionController::class, 'update']);
     Route::delete('/delete/question/{id}', [QuestionController::class, 'destroy']);
     Route::get('/question/quiz/{id}', [QuestionController::class, 'showByQuiz']);
 
     Route::get('/answers', [AnswerController::class, 'index']);
     Route::get('/answer/{id}', [AnswerController::class, 'show']);
     Route::post('/create/answer', [AnswerController::class, 'store']);
-    Route::put('/update/answer/{id}', [AnswerController::class, 'update']);
+    Route::post('/update/answer/{id}', [AnswerController::class, 'update']);
     Route::delete('/delete/answer/{id}', [AnswerController::class, 'destroy']);
     Route::get('/answer/question/{id}', [AnswerController::class, 'showByQuestion']);
 

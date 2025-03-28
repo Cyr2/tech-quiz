@@ -10,4 +10,7 @@ class Answer extends Model
     protected $table = 'answer';
     protected $fillable = ['answer_id','label', 'is_correct', 'question_id'];
     public $timestamps = true;
+    protected $primaryKey = 'answer_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
 }
