@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 class QuizController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Affichage de la liste des quiz.
      */
     public function index()
     {
@@ -18,7 +18,7 @@ class QuizController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Stocker un nouveau quiz.
      */
     public function store(Request $request)
     {
@@ -51,7 +51,7 @@ class QuizController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Afficher le quiz spécifié.
      */
     public function show(string $id)
     {
@@ -59,7 +59,7 @@ class QuizController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour le quiz spécifié.
      */
     public function update(Request $request, string $id)
     {
@@ -85,7 +85,7 @@ class QuizController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer le quiz spécifié.
      */
     public function destroy(string $id)
     {

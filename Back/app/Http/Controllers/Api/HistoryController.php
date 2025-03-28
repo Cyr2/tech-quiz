@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\History; // Ensure the History model is imported
+use App\Models\History; 
 
 class HistoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Affichage de la liste des historiques.
      */
     public function index()
     {
@@ -17,7 +17,7 @@ class HistoryController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Stocker un nouvel historique.
      */
     public function store(Request $request)
     {
@@ -50,7 +50,7 @@ class HistoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Afficher l'historique spécifié.
      */
     public function show(string $id)
     {
@@ -68,7 +68,7 @@ class HistoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour la ressource spécifiée.
      */
     public function update(Request $request, string $id)
     {
@@ -102,7 +102,7 @@ class HistoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer l'historique spécifiée.
      */
     public function destroy(string $id)
     {

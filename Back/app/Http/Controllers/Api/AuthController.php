@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 
 class AuthController
 {
+    /* Login d'un utilisateur */
     public function login(Request $request)
     {
         $request->validate([
@@ -46,6 +47,7 @@ class AuthController
         ]);
     }
 
+    /* Création d'un utilisateur */
     public function register(Request $request)
     {
         $request->validate([

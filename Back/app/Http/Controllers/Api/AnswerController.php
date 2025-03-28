@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 class AnswerController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Affichage de la liste des réponses.
      */
     public function index()
     {
@@ -18,7 +18,7 @@ class AnswerController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Stocker une nouvelle réponse.
      */
     public function store(Request $request)
     {
@@ -46,7 +46,7 @@ class AnswerController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Afficher la réponse spécifiée.
      */
     public function show(string $id)
     {
@@ -59,7 +59,7 @@ class AnswerController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour la réponse spécifiée.
      */
     public function update(Request $request, string $id)
     {
@@ -88,7 +88,7 @@ class AnswerController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer la réponse spécifiée.
      */
     public function destroy(string $id)
     {
