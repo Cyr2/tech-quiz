@@ -8,8 +8,9 @@
         <li>
           <NuxtLink to="/history">History</NuxtLink>
         </li>
-        <li v-if="isAdmin">
+        <li>
           <NuxtLink to="/admin">Admin</NuxtLink>
+          <!-- TODO: Faire la logique de vérif -->
         </li>
         <li>
           <button @click="logout">Logout</button>
