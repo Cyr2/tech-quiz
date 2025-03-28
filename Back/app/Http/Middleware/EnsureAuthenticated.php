@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class EnsureAuthenticated
 {
     /**
-     * Handle an incoming request.
+     * Gérer une requête entrante.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
