@@ -4,50 +4,52 @@
   <div v-if="!filteredData.length" class="text-center text-red-500">
     No user available to display.
   </div>
-  <table v-else class="border-2 border-neutral-light bg-bg-primary">
-    <thead>
-        <tr>
-            <!-- boucle pour afficher tout les noms de colonne -->
-            <th 
-                v-for="colonne in Object.keys(filteredData[0] || {})" 
-                :key="colonne" 
-                class="px-4 py-2"
-            >
-                <!-- si la colonne est username affichage d'un bouton de tri  -->
-                <div v-if="colonne === 'username'" class="flex items-center justify-between">
-                    {{ colonne }}
-                    <button 
-                        class="btn btn-primary cursor-pointer rounded-md px-2 py-1"
-                        @click="toggleSortOrderUsername"
-                    >
-                        {{ sortOrderUsername === 'asc' ? '▲' : '▼' }}
-                    </button>
-                </div>
-                <!-- si la colonne est created_at affichage d'un bouton de tri  -->
-                <div v-else-if="colonne === 'created_at'" class="flex items-center justify-between">
-                    {{ colonne }}
-                    <button 
-                        class="btn btn-primary cursor-pointer rounded-md px-2 py-1"
-                        @click="toggleSortOrderDate"
-                    >
-                        {{ sortOrderDate === 'asc' ? '▲' : '▼' }}
-                    </button>
-                </div>
-                <span v-else>{{ colonne }}</span>
-            </th>
-            <th colspan="2" class="px-4 py-2">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- boucle pour afficher toutes les infos de chaque utilisateurs -->
-        <tr v-for="row in filteredData" :key="row.user_id" class="text-center border-2 border-neutral-light">
-            <td v-for="value in row" :key="value" class="px-4 py-2">{{ value }}</td>
-            <td class="px-4 py-2"><NuxtLink to="/admin/users/:id/details" class="btn btn-primary bg-neutral-dark-lightest text-bg-primary cursor-pointer rounded-md  px-2 py-1">Details</NuxtLink></td>
-            <td class="px-4 py-2"><NuxtLink to="/admin/users/:id/update" class="btn btn-primary bg-highlight-medium text-bg-primary cursor-pointer rounded-md  px-2 py-1">Update</NuxtLink></td>
-            <td><button class="bg-support-error-medium text-bg-primary cursor-pointer rounded-md  px-2 py-1 mx-2" @click="$emit('delete-user', row.user_id)">Delete</button></td>
-        </tr>
-    </tbody>
-  </table>
+  <div v-else class="overflow-x-auto w-full border-2 border-neutral-light">
+      <table class="border-collapse bg-bg-primary">
+        <thead>
+            <tr>
+                <!-- boucle pour afficher tout les noms de colonne -->
+                <th 
+                    v-for="colonne in Object.keys(filteredData[0] || {})" 
+                    :key="colonne" 
+                    class="px-4 py-2"
+                >
+                    <!-- si la colonne est username affichage d'un bouton de tri  -->
+                    <div v-if="colonne === 'username'" class="flex items-center justify-between">
+                        {{ colonne }}
+                        <button 
+                            class="btn btn-primary cursor-pointer rounded-md px-2 py-1"
+                            @click="toggleSortOrderUsername"
+                        >
+                            {{ sortOrderUsername === 'asc' ? '▲' : '▼' }}
+                        </button>
+                    </div>
+                    <!-- si la colonne est created_at affichage d'un bouton de tri  -->
+                    <div v-else-if="colonne === 'created_at'" class="flex items-center justify-between">
+                        {{ colonne }}
+                        <button 
+                            class="btn btn-primary cursor-pointer rounded-md px-2 py-1"
+                            @click="toggleSortOrderDate"
+                        >
+                            {{ sortOrderDate === 'asc' ? '▲' : '▼' }}
+                        </button>
+                    </div>
+                    <span v-else>{{ colonne }}</span>
+                </th>
+                <th colspan="2" class="px-4 py-2">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- boucle pour afficher toutes les infos de chaque utilisateurs -->
+            <tr v-for="row in filteredData" :key="row.user_id" class="text-center border-2 border-neutral-light">
+                <td v-for="value in row" :key="value" class="px-4 py-2">{{ value }}</td>
+                <td class="px-4 py-2"><NuxtLink :to="`/admin/users/${row.user_id}/details`" class="btn btn-primary bg-neutral-dark-lightest text-bg-primary cursor-pointer rounded-md  px-2 py-1">Details</NuxtLink></td>
+                <td class="px-4 py-2"><NuxtLink :to="`/admin/users/${row.user_id}/update`" class="btn btn-primary bg-highlight-medium text-bg-primary cursor-pointer rounded-md  px-2 py-1">Update</NuxtLink></td>
+                <td><button class="bg-support-error-medium text-bg-primary cursor-pointer rounded-md  px-2 py-1 mx-2" @click="$emit('delete-user', row.user_id)">Delete</button></td>
+            </tr>
+        </tbody>
+      </table>
+  </div>
   <!-- Afficher quel filtre est actif si il y en a un -->
   <h2 v-if="searched">Username searched: {{ searched }}</h2>
   <h2 v-if="min && max">Created between {{ min }} and {{ max }}</h2>
