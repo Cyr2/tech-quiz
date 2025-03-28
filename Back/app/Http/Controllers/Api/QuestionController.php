@@ -104,8 +104,10 @@ class QuestionController extends Controller
      */
     public function destroy(string $id)
     {
-        Question::findOrFail($id)->forceDelete();
-
+        $question = Question::where('question_id', $id)->first();
+        
+        $question->forceDelete();
+        
         return response()->json([
             'message' => 'Question supprimée avec succès',
         ]);

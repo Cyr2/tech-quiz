@@ -80,6 +80,8 @@ import { fetchQuizById } from '../../../../utils/fetchQuizById';
 import { fetchQuestionsByIdQuiz } from '../../../../utils/fetchQuestionsByIdQuiz';
 import { fetchAnswersByIdQuestion } from '../../../../utils/fectAnswersByIdQuestion';
 import { fetchUpdateQuiz } from '../../../../utils/fetchUpdateQuiz';
+import { fetchDeleteAnswer } from '../../../../utils/fetchDeleteAnswer';
+import { fetchDeleteQuestion } from '../../../../utils/fetchDeleteQuestion';
 
 const route = useRoute();
 const id = computed(() => route.params.id);
@@ -87,6 +89,8 @@ const id = computed(() => route.params.id);
 const errorQuiz = ref('');
 const errorQuestion = ref('');
 const errorAnswer = ref('');
+const answerDelete = ref([]);
+const questionDelete = ref([]);
 
 const tab = ref({
     title: '',
@@ -105,31 +109,34 @@ const tab = ref({
 
 const addQuestion = () => {
     tab.value.questions.push({
-        questionId: '',
+        questionId: crypto.randomUUID(),
         label: '',
         correctAnswer: null,
         answers: [
-            { label: '', isCorrect: false, answerId: '' },
-            { label: '', isCorrect: false, answerId: '' },
+            { label: '', isCorrect: false, answerId: crypto.randomUUID() },
+            { label: '', isCorrect: false, answerId: crypto.randomUUID() },
         ],
     });
 };
 
 const removeQuestion = (index) => {
     if (tab.value.questions.length > 1) {
+        questionDelete.value.push(tab.value.questions[index].questionId);
         tab.value.questions.splice(index, 1);
     }
 };
 
 const addAnswer = (questionIndex) => {
     if (tab.value.questions[questionIndex].answers.length < 4) {
-        tab.value.questions[questionIndex].answers.push({ label: '', isCorrect: false, answerId: '' });
+        tab.value.questions[questionIndex].answers.push({ label: '', isCorrect: false, answerId: crypto.randomUUID() });
     }
 };
 
 const removeAnswer = (questionIndex, answerIndex) => {
     if (tab.value.questions[questionIndex].answers.length > 2) {
+        answerDelete.value.push(tab.value.questions[questionIndex].answers[answerIndex].answerId);
         tab.value.questions[questionIndex].answers.splice(answerIndex, 1);
+
     }
 };
 
@@ -179,6 +186,18 @@ const submit = async () => {
     if (tab.value.questions.some((q) => q.answers.some((a) => a.label.trim() === ''))){
         errorAnswer.value = 'Toutes les réponses doivent avoir un libellé.';
         return;
+    }
+
+    if(answerDelete.value.length > 0){
+        for (const answerId of answerDelete.value) {
+            await fetchDeleteAnswer(answerId);
+        }
+    }
+
+    if(questionDelete.value.length > 0){
+        for (const questionId of questionDelete.value) {
+            await fetchDeleteQuestion(questionId);
+        }
     }
 
     const transformedQuiz = {

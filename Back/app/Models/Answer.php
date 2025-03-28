@@ -11,6 +11,6 @@ class Answer extends Model
     protected $fillable = ['answer_id','label', 'is_correct', 'question_id'];
     public $timestamps = true;
     protected $primaryKey = 'answer_id';
-    public $incrementing = true;
-    protected $keyType = 'int';
+    public $incrementing = false;
+    protected $keyType = 'string';
 }

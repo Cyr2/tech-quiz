@@ -103,8 +103,8 @@ class AnswerController extends Controller
      */
     public function destroy(string $id)
     {
-        $answer = Answer::findOrFail($id);
-        $answer->delete();
+        $answer = Answer::where('answer_id', $id)->first();
+        $answer->forceDelete();
 
         return response()->json([
             'message' => 'Réponse supprimée avec succès',
